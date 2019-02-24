@@ -7,45 +7,28 @@ namespace TicTacToe
     {
         static void Main(string[] args)
         {
-            /*
-
-            Engine myEngine = new Engine();
-
-            Player myPlayer = new Player();
-            Console.WriteLine("Enter your first move");
-            myPlayer.playerMoves.Add(Convert.ToInt32(Console.ReadLine()));
-            Console.WriteLine("My first move "+ myEngine.CalculateMove(myPlayer));
-
-            Console.WriteLine("Enter your second move");
-            myPlayer.playerMoves.Add(Convert.ToInt32(Console.ReadLine()));  
-            Console.WriteLine("My second move " + myEngine.CalculateMove(myPlayer));
-
-            Console.WriteLine("Enter your third move");
-            myPlayer.playerMoves.Add(Convert.ToInt32(Console.ReadLine()));
-            Console.WriteLine("My third move " + myEngine.CalculateMove(myPlayer));
-
-            Console.WriteLine("Enter your fourth move");
-            myPlayer.playerMoves.Add(Convert.ToInt32(Console.ReadLine()));
-            Console.WriteLine("My third move " + myEngine.CalculateMove(myPlayer));
-            /*
-            Console.WriteLine("Enter your fifth move");
-            myPlayer.playerMoves.Add(Convert.ToInt32(Console.ReadLine()));
-            Console.WriteLine("My fourth move " + myEngine.CalculateMove(myPlayer));
-
-           */
-
+           
             Engine myEngine = new Engine();
 
             Player myPlayer = new Player();
 
-            myPlayer.playerMoves.Add(1);
-          
+            Start:
+            Console.WriteLine("Welcome to Imposible triki, Press any key to start playing");
+            Console.ReadKey();
 
-            myPlayer.playerMoves.Add(4);
- 
-         
+            for (int i = 0; i < 5; i++)
+            {
+                Console.WriteLine($"Enter your {i + 1 } move");
+                myPlayer.playerMoves.Add(Convert.ToInt32(Console.ReadLine()));
+                if (i != 4) Console.WriteLine($"My {i + 1 } move is " + myEngine.CalculateMove(myPlayer));
+            }
 
-            BlockingStrategy.FindingMovesToBlock(myEngine.engineMoves, myPlayer.playerMoves).ForEach(i => i.combination.ForEach(b => Console.WriteLine(b)));     
+            Console.WriteLine("To restart the game enter 1, to close the app press any key ");
+            if (Convert.ToInt32(Console.ReadLine()) == 2 ) {
+                myPlayer.playerMoves.Clear();
+                myEngine.engineMoves.Clear();
+                goto Start;
+            } 
 
             Console.ReadKey();
         }

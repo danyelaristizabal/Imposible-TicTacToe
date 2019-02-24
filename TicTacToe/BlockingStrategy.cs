@@ -4,6 +4,8 @@ namespace TicTacToe
 {
     public static class BlockingStrategy
     {
+
+
         public static int FirstMove(Player myPlayer)
         {
             if (myPlayer.playerMoves[0] == 5)
@@ -14,26 +16,30 @@ namespace TicTacToe
             return 5;
         }
 
-        public static List<MoveCombination> FindingMovesToBlock(List<int> engineMoves, List<int> playerMoves) {
-            var combinationsLeft = new List<MoveCombination> { };
 
-            foreach (var combination in Engine.winingCombinations)
+        public static bool ThereIsANeedToBlock(List<int> engineMoves, List<int> playerMoves ) {
+
+            if (Engine.GetAllRiskyCombinationsOfTwo(engineMoves, playerMoves).Count > 0) return true;
+            return false; 
+        } 
+
+        public static int WithAllCombinationsCalculateBlock(List<int> engineMoves, List<int> playerMoves) {
+            List<int> blocks = new List<int>(); 
+            foreach (var combination in Engine.GetAllRiskyCombinationsOfTwo(engineMoves, playerMoves))
             {
-                for (int i = 0; i < playerMoves.Count - 1 ; i++)
-                {
-                    if (combination.combination.Contains(playerMoves[i]) && combination.combination.Contains(playerMoves[i + 1]))
-                       combinationsLeft.Add(combination);
-                    if((playerMoves.Count + 1 )%3 ==  0 && combination.combination.Contains(playerMoves[i]) && combination.combination.Contains(playerMoves[i + 2])) // this shit is not working 
-                    combinationsLeft.Add(combination);
-                }   
+                if (!engineMoves.Contains(CalculateBlock(combination[0], combination[1])))
+                   blocks.Add(CalculateBlock(combination[0], combination[1]));
+              
             }
-            return combinationsLeft; 
+            var rand = new Random();
+
+                        return blocks[rand.Next(0, blocks.Count)];
         }
 
-        public static int CalculateBlock( int userMove1, int userMove2)
+
+        public static int CalculateBlock(int userMove1, int userMove2)
         {
             var result = new int();
-
             foreach (var combination in Engine.winingCombinations)
             {
                 if (combination.CheckWiningCombination(userMove1, userMove2))

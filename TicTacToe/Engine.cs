@@ -21,8 +21,22 @@ namespace TicTacToe
         public Engine() {
             engineMoves = new List<int> { }; 
         }
-       
 
+
+
+        public static List<int[]> GetAllRiskyCombinationsOfTwo(List<int> engineMoves, List<int> playerMoves) {
+            var packagesOfRisk = new List<int[]>();
+            for (int i = 0; i < playerMoves.Count -1; i++)
+            {
+                var checking = playerMoves[i]; 
+                for (int j = i + 1; j < playerMoves.Count; j++)
+                {
+                  if(checking != playerMoves[j] && CheckCombination(checking, playerMoves[j]) && !engineMoves.Contains(BlockingStrategy.CalculateBlock(checking, playerMoves[j])) )
+                   packagesOfRisk.Add(new int[] { checking, playerMoves[j] });
+                }
+            }
+            return packagesOfRisk; 
+        }
 
 
 
@@ -31,6 +45,8 @@ namespace TicTacToe
             if (combination.CheckWiningCombination(userMove1, userMove2)) return true; 
             return false;
         }
+
+
 
         public static bool CheckCombinationWithWiningCombinations(MoveCombination playerCombination)
         {
@@ -54,13 +70,15 @@ namespace TicTacToe
             if (myPlayer.playerMoves.Count == 3) caseSwitch = 3;
             switch (caseSwitch)
             {
+
                 case 1:
                     engineMoves.Add(BlockingStrategy.FirstMove(myPlayer));
                     return engineMoves[0];
+
                 case 2:
-                    if (CheckCombination(myPlayer.playerMoves[0], myPlayer.playerMoves[1]))
+                    if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.playerMoves).Count > 0)
                     {
-                        engineMoves.Add(BlockingStrategy.CalculateBlock(myPlayer.playerMoves[0], myPlayer.playerMoves[1]));
+                        engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.playerMoves));
                         return engineMoves[1];
                     }
                     engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.playerMoves));
@@ -68,23 +86,44 @@ namespace TicTacToe
 
                 case 3:
                     if (myPlayer.CheckWiningStatePlayer()) {
-                        return 10; 
+                        return 10;
                     }
-
-                    MoveCombination firstCombination = new MoveCombination(myPlayer.playerMoves[0], myPlayer.playerMoves[1], myPlayer.playerMoves[2]);
+                    if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.playerMoves).Count > 0 && GetAllRiskyCombinationsOfTwo(myPlayer.playerMoves, engineMoves).Count < 1)
+                    {
+                        engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.playerMoves));
+                        return engineMoves[2];
+                    }
                     engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.playerMoves));
                     return engineMoves[2];
-                     case 4:
+
+                 case 4:
                     if (myPlayer.CheckWiningStatePlayer())
                     {
                         return 10;
                     }
+                    if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.playerMoves).Count > 0 && GetAllRiskyCombinationsOfTwo(myPlayer.playerMoves, engineMoves).Count < 1)
+                    {
+                        engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.playerMoves));
+                        return engineMoves[3];
+                    }
                     engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.playerMoves));
                     return engineMoves[3];
-                    /*
-                case 5:
-                    return false;
-                    */ 
+
+              
+            case 5:
+                    if (myPlayer.CheckWiningStatePlayer())
+                    {
+                        return 10;
+                    }
+                    if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.playerMoves).Count > 0 && GetAllRiskyCombinationsOfTwo(myPlayer.playerMoves, engineMoves).Count < 1)
+                    {
+                        engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.playerMoves));
+                        return engineMoves[4];
+                    }
+                    engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.playerMoves));
+                    return engineMoves[4];
+                  
+             
                 default:
                     return 13;
             }

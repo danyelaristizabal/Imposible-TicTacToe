@@ -29,7 +29,7 @@ namespace TicTacToe
             var result = new int(); 
             foreach (var move in combination)
             {
-                if (userMove1 != move || move != userMove2) {
+                if (userMove1 != move && move != userMove2) {
                     result = move;
                 } 
             }
