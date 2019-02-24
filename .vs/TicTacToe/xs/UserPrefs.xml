@@ -1,16 +1,17 @@
 ﻿<Properties StartupConfiguration="{D2F9928F-5C39-4713-AB38-519CDA07AB54}|Default">
   <MonoDevelop.Ide.ItemProperties.TicTacToe PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TicTacToe/WiningStrategy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TicTacToe/Program.cs">
     <Files>
-      <File FileName="TicTacToe/BlockingStrategy.cs" Line="1" Column="1" />
+      <File FileName="TicTacToe/BlockingStrategy.cs" Line="16" Column="8" />
       <File FileName="TicTacToe/WiningStrategy.cs" Line="7" Column="39" />
+      <File FileName="TicTacToe/Program.cs" Line="16" Column="64" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="TicTacToe" expanded="True">
             <Node name="TicTacToe" expanded="True">
-              <Node name="WiningStrategy.cs" selected="True" />
+              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>

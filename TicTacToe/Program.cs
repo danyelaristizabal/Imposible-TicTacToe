@@ -13,7 +13,7 @@ namespace TicTacToe
             Player myPlayer = new Player();
 
             Start:
-            Console.WriteLine("Welcome to Imposible triki, Press any key to start playing");
+            Console.WriteLine("Welcome to Imposible Tic-tac-toe, Press any key to start playing");
             Console.ReadKey();
 
             for (int i = 0; i < 5; i++)
