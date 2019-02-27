@@ -26,7 +26,7 @@ namespace TicTacToe
         }
 
 
-        public static List<MoveCombination> CalculateWiningCombinationsLeft(List<int> Moves)
+        public static List<MoveCombination> CalculateWiningCombinationsLeft(List<int> Moves) // working correctly 
         {
             var combinationsLeft = new List<MoveCombination> { };
 
@@ -49,34 +49,50 @@ namespace TicTacToe
         }
 
 
-        public static List<int> ChooseRepeatedtwoNumbersOnSelectedCombinations(List<MoveCombination> combinationsLeft, List<int> engineMoves, List<int> playerMoves)
+        public static List<int> ChooseRepeatedtwoNumbersOnSelectedCombinations(List<MoveCombination> combinationsLeft, List<int> engineMoves, List<int> playerMoves) // working 
         {
             var theChoosenOnes = new List<int> { };
 
-
-
             foreach (var combination in combinationsLeft)
             {
-                int checking;
-                foreach (var move in combination.combination)
+                var counter = 0; 
+                var move1 = new int();
+                var move2 = new int();
+                foreach (var move in engineMoves)
                 {
-                    checking = move;
-                    foreach (var onCheckcombination in combinationsLeft)
+                    if (combination.combination.Contains(move)) 
+                    {
+                        if (counter == 0) move1 = move;
+                        counter++;
+                    }
+                    if(counter == 2) 
+                    {
+                        move2 = move;
+                       theChoosenOnes.Add( BlockingStrategy.CalculateBlock(move1, move2));
+                        return theChoosenOnes; 
+                    } 
+                }
+            }
+
+            for (int i = 0; i < combinationsLeft.Count; i++)
+                foreach (var checkingMove in combinationsLeft[i].combination)
+                    for (int j = i + 1; j < combinationsLeft.Count; j++)
+                        foreach (var move in combinationsLeft[j].combination)
+                            if (move == checkingMove && !engineMoves.Contains(checkingMove) && !playerMoves.Contains(checkingMove))
+                                theChoosenOnes.Add(checkingMove); 
+            return theChoosenOnes;
+        }
+    }
+}
+
+/*  foreach (var onCheckcombination in combinationsLeft)
                     {
                         foreach (var onCheckMove in combination.combination)
                         {
-                            if (checking == onCheckMove && combination != onCheckcombination && checking != engineMoves[0])
+                            if (checkingMove == onCheckMove && combination != onCheckcombination && checkingMove != engineMoves[0])
                             {
-                                if (!theChoosenOnes.Contains(checking) && !engineMoves.Contains(checking) && !playerMoves.Contains(checking) ) theChoosenOnes.Add(checking);
+                                if (!theChoosenOnes.Contains(checkingMove) && !engineMoves.Contains(checkingMove) && !playerMoves.Contains(checkingMove) ) theChoosenOnes.Add(checkingMove);
                             }
                         }
                     }
-                }
-            }
-            return theChoosenOnes;
-        }
-
-
-
-    }
-}
+                    */
