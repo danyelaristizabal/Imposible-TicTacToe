@@ -2,10 +2,9 @@
 using System.Collections.Generic; 
 namespace TicTacToe
 {
+    // Wraps all the logic behind analizing the player and calculate a blocking move when is needed. 
     public static class BlockingStrategy
     {
-
-
         public static int FirstMove(Player myPlayer)
         {
             if (myPlayer.playerMoves[0] == 5)
@@ -15,7 +14,6 @@ namespace TicTacToe
             }
             return 5;
         }
-
 
         public static bool ThereIsANeedToBlock(List<int> engineMoves, List<int> playerMoves ) {
 
@@ -36,7 +34,6 @@ namespace TicTacToe
                         return blocks[rand.Next(0, blocks.Count)];
         }
 
-
         public static int CalculateBlock(int userMove1, int userMove2)
         {
             var result = new int();
@@ -47,7 +44,5 @@ namespace TicTacToe
             }
             return result;
         }
-
-
     }
 }

@@ -2,6 +2,9 @@
 using System.Collections.Generic; 
 namespace TicTacToe
 {
+    //MoveCombination is an object that wraps up 3 moves represented by numbers. 
+    //This class has 3 main methods that help analizing MoveCombination type of objects. 
+
     public class MoveCombination
     {
         public List<int> combination;
@@ -29,9 +32,7 @@ namespace TicTacToe
             var result = new int(); 
             foreach (var move in combination)
             {
-                if (userMove1 != move && move != userMove2) {
-                    result = move;
-                } 
+                if (userMove1 != move && move != userMove2) result = move;
             }
             return result;
         }

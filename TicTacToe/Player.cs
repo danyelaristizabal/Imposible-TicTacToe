@@ -6,20 +6,18 @@ namespace TicTacToe
     {
         public List<int> playerMoves;
 
-        public Player( )
+        public Player()
         {
             playerMoves = new List<int> { };
         }
 
-        public bool CheckWiningStatePlayer()
+        public bool CheckWiningState()
         {
 
             switch (playerMoves.Count)
             {
-                case 1:
-                    return false;
+                case 1: return false;
                 case 2: return false;
-
                 case 3:
                     MoveCombination firstCombination = new MoveCombination(playerMoves[0], playerMoves[1], playerMoves[2]);
                     if (Engine.CheckCombinationWithWiningCombinations(firstCombination)) return true;
@@ -39,7 +37,6 @@ namespace TicTacToe
                     if (Engine.CheckCombinationWithWiningCombinations(sixthCombination)) return true;
                     MoveCombination seventhCombination = new MoveCombination(playerMoves[2], playerMoves[3], playerMoves[4]);
                     if (Engine.CheckCombinationWithWiningCombinations(seventhCombination)) return true;
-
                     MoveCombination eightCombination = new MoveCombination(playerMoves[0], playerMoves[2], playerMoves[4]);
                     if (Engine.CheckCombinationWithWiningCombinations(eightCombination)) return true;
                     MoveCombination ninethCombination = new MoveCombination(playerMoves[0], playerMoves[3], playerMoves[4]);
@@ -48,7 +45,6 @@ namespace TicTacToe
                     MoveCombination tenthCombination = new MoveCombination(playerMoves[0], playerMoves[1], playerMoves[4]);
                     if (Engine.CheckCombinationWithWiningCombinations(tenthCombination)) return true;
                     return false;
-
                 default:
                     return false;
             }

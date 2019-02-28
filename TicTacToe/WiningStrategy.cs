@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace TicTacToe
 {
 
-
+    // Wraps all the logic behind choosing a winingMove to make a winingCombination 
     public static class WiningStrategy
     {
 
@@ -84,15 +84,3 @@ namespace TicTacToe
         }
     }
 }
-
-/*  foreach (var onCheckcombination in combinationsLeft)
-                    {
-                        foreach (var onCheckMove in combination.combination)
-                        {
-                            if (checkingMove == onCheckMove && combination != onCheckcombination && checkingMove != engineMoves[0])
-                            {
-                                if (!theChoosenOnes.Contains(checkingMove) && !engineMoves.Contains(checkingMove) && !playerMoves.Contains(checkingMove) ) theChoosenOnes.Add(checkingMove);
-                            }
-                        }
-                    }
-                    */

@@ -7,11 +7,9 @@ namespace TicTacToe
     {
         static void Main(string[] args)
         {
-           
             Engine myEngine = new Engine();
-
             Player myPlayer = new Player();
-    
+
             Start:
             Console.WriteLine("Welcome to Imposible Tic-tac-toe, Press any key to start playing");
             Console.ReadKey();
@@ -24,6 +22,7 @@ namespace TicTacToe
             }
 
             Console.WriteLine("To restart the game enter 1, to close the app press any key ");
+
             if (Convert.ToInt32(Console.ReadLine()) == 2 ) {
                 myPlayer.playerMoves.Clear();
                 myEngine.engineMoves.Clear();
