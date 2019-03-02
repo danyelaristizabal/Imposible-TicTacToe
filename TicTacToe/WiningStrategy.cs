@@ -20,7 +20,6 @@ namespace TicTacToe
                     }
                 }
             }
-
             var WiningMove = ChooseRepeatedtwoNumbersOnSelectedCombinations(movePackage, engineMoves, playerMoves);
             return WiningMove[Rand.Next(0, WiningMove.Count)];
         }
@@ -49,7 +48,7 @@ namespace TicTacToe
         }
 
 
-        public static List<int> ChooseRepeatedtwoNumbersOnSelectedCombinations(List<MoveCombination> combinationsLeft, List<int> engineMoves, List<int> playerMoves) // working 
+        public static List<int> ChooseRepeatedtwoNumbersOnSelectedCombinations(List<MoveCombination> combinationsLeft, List<int> engineMoves, List<int> playerMoves) // add in case that there is no repeated numbers  
         {
             var theChoosenOnes = new List<int> { };
 
@@ -79,7 +78,22 @@ namespace TicTacToe
                     for (int j = i + 1; j < combinationsLeft.Count; j++)
                         foreach (var move in combinationsLeft[j].combination)
                             if (move == checkingMove && !engineMoves.Contains(checkingMove) && !playerMoves.Contains(checkingMove))
-                                theChoosenOnes.Add(checkingMove); 
+                                theChoosenOnes.Add(checkingMove);
+
+            /* In the case that theChoosenOnes end up being empty 
+          because none of the combinations hava a shared move between each other,
+          this if statement  of code will add all the posible moves that can make 
+          a wining move to the array choosenOnes 
+          */
+            if (theChoosenOnes.Count == 0)
+                foreach (var combination in combinationsLeft)
+                {
+                    foreach (var move in combination.combination)
+                    {
+                        if ( !engineMoves.Contains(move) && !playerMoves.Contains(move))
+                            theChoosenOnes.Add(move);
+                    }
+                }
             return theChoosenOnes;
         }
     }
