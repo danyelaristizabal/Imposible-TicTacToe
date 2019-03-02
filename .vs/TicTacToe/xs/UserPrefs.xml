@@ -1,13 +1,13 @@
 ﻿<Properties StartupConfiguration="{D2F9928F-5C39-4713-AB38-519CDA07AB54}|Default">
   <MonoDevelop.Ide.ItemProperties.TicTacToe PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TicTacToe/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TicTacToe/Engine.cs">
     <Files>
-      <File FileName="TicTacToe/Program.cs" Line="25" Column="1" />
-      <File FileName="TicTacToe/Engine.cs" Line="17" Column="57" />
-      <File FileName="TicTacToe/WiningStrategy.cs" Line="21" Column="18" />
-      <File FileName="TicTacToe/BlockingStrategy.cs" Line="8" Column="1" />
+      <File FileName="TicTacToe/Program.cs" Line="31" Column="31" />
+      <File FileName="TicTacToe/Engine.cs" Line="119" Column="30" />
+      <File FileName="TicTacToe/WiningStrategy.cs" Line="53" Column="10" />
+      <File FileName="TicTacToe/BlockingStrategy.cs" Line="5" Column="40" />
       <File FileName="TicTacToe/MoveCombination.cs" Line="7" Column="1" />
-      <File FileName="TicTacToe/Player.cs" Line="21" Column="1" />
+      <File FileName="TicTacToe/Player.cs" Line="18" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

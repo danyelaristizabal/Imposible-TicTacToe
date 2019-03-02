@@ -10,6 +10,7 @@ namespace TicTacToe
         public static int CalculateWiningMove(List<int> engineMoves, List<int> playerMoves)
         {
             var Rand = new Random();
+
             List<MoveCombination> movePackage = CalculateWiningCombinationsLeft(playerMoves);
             if(movePackage.Count == 1) {
                 MoveCombination theOnly = movePackage[0];
@@ -25,7 +26,7 @@ namespace TicTacToe
         }
 
 
-        public static List<MoveCombination> CalculateWiningCombinationsLeft(List<int> Moves) // working correctly 
+        public static List<MoveCombination> CalculateWiningCombinationsLeft(List<int> Moves) 
         {
             var combinationsLeft = new List<MoveCombination> { };
 
@@ -80,11 +81,11 @@ namespace TicTacToe
                             if (move == checkingMove && !engineMoves.Contains(checkingMove) && !playerMoves.Contains(checkingMove))
                                 theChoosenOnes.Add(checkingMove);
 
-            /* In the case that theChoosenOnes end up being empty 
-          because none of the combinations hava a shared move between each other,
-          this if statement  of code will add all the posible moves that can make 
-          a wining move to the array choosenOnes 
-          */
+          //In the case that theChoosenOnes end up being empty 
+          //because none of the combinations have a shared move between each other,
+          //this if statement will add all the posible moves that can make 
+          //a wining move to the array theChoosenOnes. 
+
             if (theChoosenOnes.Count == 0)
                 foreach (var combination in combinationsLeft)
                 {

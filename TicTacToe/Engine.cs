@@ -116,7 +116,7 @@ namespace TicTacToe
                   
              
                 default:
-                    return 13;
+                    return 11;
             }
 
         }
