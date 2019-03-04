@@ -2,7 +2,7 @@
 using System.Collections.Generic; 
 namespace TicTacToe
 {
-    public class Player
+    public class Player /// Wraps all the player functions logic
     {
         public List<int> playerMoves;
 
