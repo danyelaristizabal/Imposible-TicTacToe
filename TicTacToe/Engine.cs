@@ -51,6 +51,8 @@ namespace TicTacToe
         }
 
 
+
+
         public int CalculateMove(Player myPlayer) {
             var caseSwitch = new int();
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace TicTacToe
 {
     // Wraps all the logic behind analizing the player and calculate a blocking move when is needed. 
-    public static class BlockingStrategy
+     static class BlockingStrategy
     {
         public static int FirstMove(Player myPlayer)
         {

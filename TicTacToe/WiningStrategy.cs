@@ -4,7 +4,7 @@ namespace TicTacToe
 {
 
     // Wraps all the logic behind choosing a winingMove to make a winingCombination 
-    public static class WiningStrategy
+    static class WiningStrategy
     {
 
         public static int CalculateWiningMove(List<int> engineMoves, List<int> playerMoves)
