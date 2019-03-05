@@ -15,13 +15,13 @@ namespace TicTacToe
             return 5;
         }
 
-        public static bool ThereIsANeedToBlock(List<int> engineMoves, List<int> playerMoves ) {
+         static bool ThereIsANeedToBlock(List<int> engineMoves, List<int> playerMoves ) {
 
             if (Engine.GetAllRiskyCombinationsOfTwo(engineMoves, playerMoves).Count > 0) return true;
             return false; 
         } 
 
-        public static int WithAllCombinationsCalculateBlock(List<int> engineMoves, List<int> playerMoves) {
+         public static int WithAllCombinationsCalculateBlock(List<int> engineMoves, List<int> playerMoves) {
             List<int> blocks = new List<int>(); 
             foreach (var combination in Engine.GetAllRiskyCombinationsOfTwo(engineMoves, playerMoves))
             {

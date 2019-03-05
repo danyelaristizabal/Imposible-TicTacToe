@@ -24,9 +24,7 @@ namespace TicTacToe
             var WiningMove = ChooseRepeatedtwoNumbersOnSelectedCombinations(movePackage, engineMoves, playerMoves);
             return WiningMove[Rand.Next(0, WiningMove.Count)];
         }
-
-
-        public static List<MoveCombination> CalculateWiningCombinationsLeft(List<int> Moves) 
+        static List<MoveCombination> CalculateWiningCombinationsLeft(List<int> Moves) 
         {
             var combinationsLeft = new List<MoveCombination> { };
 
@@ -49,7 +47,7 @@ namespace TicTacToe
         }
 
 
-        public static List<int> ChooseRepeatedtwoNumbersOnSelectedCombinations(List<MoveCombination> combinationsLeft, List<int> engineMoves, List<int> playerMoves) // add in case that there is no repeated numbers  
+         static List<int> ChooseRepeatedtwoNumbersOnSelectedCombinations(List<MoveCombination> combinationsLeft, List<int> engineMoves, List<int> playerMoves) // add in case that there is no repeated numbers  
         {
             var theChoosenOnes = new List<int> { };
 

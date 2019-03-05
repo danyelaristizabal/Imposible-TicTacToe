@@ -5,14 +5,14 @@ namespace TicTacToe
     // Wraps all the logic related to analisis of moves, uses moveCombination class, Blocking and Wining strategy to calculate the bestmove in each point of the game. 
     public class Engine 
     {
-        public static MoveCombination horizontal = new MoveCombination(1, 2, 3);
-        public static MoveCombination horizontal2 = new MoveCombination(4, 5, 6);
-        public static MoveCombination horizontal3 = new MoveCombination(7, 8, 9);
-        public static MoveCombination vertical = new MoveCombination(1, 5, 9);
-        public static MoveCombination vertical2 =  new MoveCombination(7, 5, 3);
-        public static MoveCombination vertical3 = new MoveCombination(1, 4, 7);
-        public static MoveCombination diagonal = new MoveCombination(2, 5, 8);
-        public static MoveCombination diagonal2 = new MoveCombination(3, 6, 9);
+         static MoveCombination horizontal = new MoveCombination(1, 2, 3);
+         static MoveCombination horizontal2 = new MoveCombination(4, 5, 6);
+         static MoveCombination horizontal3 = new MoveCombination(7, 8, 9);
+         static MoveCombination vertical = new MoveCombination(1, 5, 9);
+         static MoveCombination vertical2 =  new MoveCombination(7, 5, 3);
+         static MoveCombination vertical3 = new MoveCombination(1, 4, 7);
+         static MoveCombination diagonal = new MoveCombination(2, 5, 8);
+         static MoveCombination diagonal2 = new MoveCombination(3, 6, 9);
 
         public static List<MoveCombination> winingCombinations = new List<MoveCombination> { horizontal, horizontal2, horizontal3,
                                                                                              vertical, vertical2, vertical3,diagonal, diagonal2}; 
@@ -49,9 +49,6 @@ namespace TicTacToe
             }
             return false;
         }
-
-
-
 
         public int CalculateMove(Player myPlayer) {
             var caseSwitch = new int();
