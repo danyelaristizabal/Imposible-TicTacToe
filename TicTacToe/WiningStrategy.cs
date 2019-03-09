@@ -15,16 +15,18 @@ namespace TicTacToe
                 MoveCombination theOnly = movePackage[0];
                 for (int i = 0; i < theOnly.combination.Count; i++)
                 {
-                    if (!engineMoves.Contains(theOnly.combination[i]) && !playerMoves.Contains(theOnly.combination[i])){
+                    if (!engineMoves.Contains(theOnly.combination[i]) 
+                    && !playerMoves.Contains(theOnly.combination[i]))
+                    {
                         return theOnly.combination[i]; 
                     }
                 }
             }
-            var WiningMove = ChooseRepeatedtwoNumbersOnSelectedCombinations(movePackage, engineMoves, playerMoves);
+            var WiningMove = ChooseBestMovesInCombinationsLeft(movePackage, engineMoves, playerMoves);
             return WiningMove[Rand.Next(0, WiningMove.Count)];
         }
 
-        static List<MoveCombination> CalculateWiningCombinationsLeft(List<int> Moves) 
+       private static List<MoveCombination> CalculateWiningCombinationsLeft(List<int> Moves) 
         {
             var combinationsLeft = new List<MoveCombination> { };
 
@@ -46,10 +48,15 @@ namespace TicTacToe
             return combinationsLeft;
         }
 
-         static List<int> ChooseRepeatedtwoNumbersOnSelectedCombinations(List<MoveCombination> combinationsLeft, List<int> engineMoves, List<int> playerMoves) // Refactor this function, deconstruct it in many functions.   
+        private static List<int> ChooseBestMovesInCombinationsLeft(List<MoveCombination> combinationsLeft, 
+        List<int> engineMoves, List<int> playerMoves)    
          {
             var theChoosenOnes = new List<int> { };
 
+            // This cycle checks each move of engineMoves if they are completing 
+            // any of the combinationsLeft, if it is completing one then calculate the block
+            // for that combination and return inmidiatly theChoosenOnes with just the block move in it
+              
             foreach (var combination in combinationsLeft)
             {
                 var counter = 0; 
@@ -59,47 +66,75 @@ namespace TicTacToe
                 {
                     if (combination.combination.Contains(move)) 
                     {
-                        if (counter == 0) move1 = move;
+                        if (counter == 0) 
+                        {
+                            move1 = move;
+                        } 
                         counter++;
                     }
                     if(counter == 2) 
                     {
                         move2 = move;
-                       theChoosenOnes.Add( Engine.CalculateBlock(move1, move2));
+                        theChoosenOnes.Add(Engine.CalculateBlock(move1, move2));
                         return theChoosenOnes; 
                     } 
                 }
             }
 
-            for (int i = 0; i < combinationsLeft.Count; i++) 
+            theChoosenOnes = FindRepeatedNumberTwoTimes(combinationsLeft, engineMoves, playerMoves); 
+
+            if (theChoosenOnes.Count == 0) 
             {
-                foreach (var checkingMove in combinationsLeft[i].combination) 
+                theChoosenOnes = AddAllPosibleMoves(combinationsLeft, engineMoves, playerMoves); 
+            }
+            return theChoosenOnes;
+
+        }
+
+        //In the case that theChoosenOnes end up being empty 
+        //because none of the combinations have a shared move between each other,
+        //this method will add all the posible moves that can make 
+        //a wining move to the array theChoosenOnes. 
+
+        private static List<int> AddAllPosibleMoves(List<MoveCombination> combinationsLeft, 
+            List<int> engineMoves, List<int> playerMoves ) 
+        {
+            var theChoosenOnes = new List<int> { };
+            foreach (var combination in combinationsLeft)
+            {
+                foreach (var move in combination.combination)
                 {
-                    for (int j = i + 1; j < combinationsLeft.Count; j++) 
+                    if (!engineMoves.Contains(move) && !playerMoves.Contains(move))
+                        theChoosenOnes.Add(move);
+                }
+            }
+            return theChoosenOnes; 
+        }
+
+        // This function finds repeated numbers in a collection of combinations 
+        // that they are used more than one time between the combinations 
+        // in the context of the game means that choosing this two numbers 
+        // will increase our posibilities of wining by choosing move that have 
+        // the posibilities to make two wining combinations not only one.  
+
+        private static List<int> FindRepeatedNumberTwoTimes(List<MoveCombination> combinationsLeft, 
+            List<int> engineMoves, List<int> playerMoves) 
+        {
+            var theChoosenOnes = new List<int> { };
+            for (int i = 0; i < combinationsLeft.Count; i++)
+            {
+                foreach (var checkingMove in combinationsLeft[i].combination)
+                {
+                    for (int j = i + 1; j < combinationsLeft.Count; j++)
                     {
                         foreach (var move in combinationsLeft[j].combination)
-                           if (move == checkingMove && !engineMoves.Contains(checkingMove) && !playerMoves.Contains(checkingMove))
+                            if (move == checkingMove && !engineMoves.Contains(checkingMove) && !playerMoves.Contains(checkingMove))
                                 theChoosenOnes.Add(checkingMove);
                     }
                 }
             }
-          //In the case that theChoosenOnes end up being empty 
-          //because none of the combinations have a shared move between each other,
-          //this if statement will add all the posible moves that can make 
-          //a wining move to the array theChoosenOnes. 
+            return theChoosenOnes; 
 
-            if (theChoosenOnes.Count == 0) 
-            {
-                foreach (var combination in combinationsLeft)
-                {
-                    foreach (var move in combination.combination)
-                    {
-                        if (!engineMoves.Contains(move) && !playerMoves.Contains(move))
-                            theChoosenOnes.Add(move);
-                    }
-                }
-            }
-            return theChoosenOnes;
         }
     }
 }
