@@ -5,30 +5,41 @@ namespace TicTacToe
     // Wraps all the logic related to analisis of moves, uses moveCombination class, Blocking and Wining strategy to calculate the bestmove in each point of the game. 
     public class Engine 
     {
-         static MoveCombination horizontal = new MoveCombination(1, 2, 3);
-         static MoveCombination horizontal2 = new MoveCombination(4, 5, 6);
-         static MoveCombination horizontal3 = new MoveCombination(7, 8, 9);
-         static MoveCombination vertical = new MoveCombination(1, 5, 9);
-         static MoveCombination vertical2 =  new MoveCombination(7, 5, 3);
-         static MoveCombination vertical3 = new MoveCombination(1, 4, 7);
-         static MoveCombination diagonal = new MoveCombination(2, 5, 8);
-         static MoveCombination diagonal2 = new MoveCombination(3, 6, 9);
+        public static readonly List<MoveCombination> winingCombinations =
+        new List<MoveCombination> { new MoveCombination(1, 2, 3), new MoveCombination(4, 5, 6), 
+        new MoveCombination(7, 8, 9), new MoveCombination(1, 5, 9),new MoveCombination(7, 5, 3), 
+        new MoveCombination(1, 4, 7), new MoveCombination(2, 5, 8),new MoveCombination(3, 6, 9)}; 
 
-        public static List<MoveCombination> winingCombinations = new List<MoveCombination> { horizontal, horizontal2, horizontal3,
-                                                                                             vertical, vertical2, vertical3,diagonal, diagonal2}; 
-        public static int[] corners = { 1, 3, 7, 9 };
-        public List<int> engineMoves;
-        public Engine() {
+        private List<int> engineMoves;
+
+        public Engine() 
+        {
             engineMoves = new List<int> { }; 
         }
 
-        public static List<int[]> GetAllRiskyCombinationsOfTwo(List<int> engineMoves, List<int> playerMoves) {
+        public void ClearMoves() {
+            engineMoves.Clear(); 
+        } 
+
+        public static int CalculateBlock(int userMove1, int userMove2)
+        {
+            var result = new int();
+            foreach (var combination in winingCombinations)
+            {
+                if (combination.CheckWiningCombination(userMove1, userMove2))
+                    result = combination.CheckWiningMoveInCombination(userMove1, userMove2);
+            }
+            return result;
+        }
+
+        public static List<int[]> GetAllRiskyCombinationsOfTwo(List<int> engineMoves, List<int> playerMoves) 
+        {
             var packagesOfRisk = new List<int[]>();
             for (int i = 0; i < playerMoves.Count -1; i++)
             {
                 for (int j = i + 1; j < playerMoves.Count; j++)
                 {
-                  if(playerMoves[i] != playerMoves[j] && CheckCombination(playerMoves[i], playerMoves[j]) && !engineMoves.Contains(BlockingStrategy.CalculateBlock(playerMoves[i], playerMoves[j])) )
+                  if(playerMoves[i] != playerMoves[j] && CheckCombination(playerMoves[i], playerMoves[j]) && !engineMoves.Contains(CalculateBlock(playerMoves[i], playerMoves[j])) )
                    packagesOfRisk.Add(new int[] { playerMoves[i], playerMoves[j] });
                 }
             }
@@ -50,74 +61,99 @@ namespace TicTacToe
             return false;
         }
 
-        public int CalculateMove(Player myPlayer) {
+        public string CalculateMove(Player myPlayer) 
+        {
+
             var caseSwitch = new int();
 
-            caseSwitch = myPlayer.playerMoves.Count;
+            caseSwitch = myPlayer.PlayerMoves.Count;
 
-            if (myPlayer.playerMoves.Count == 0) caseSwitch = 1;
-            if (myPlayer.playerMoves.Count == 2) caseSwitch = 2;
-            if (myPlayer.playerMoves.Count == 3) caseSwitch = 3;
+            if (myPlayer.PlayerMoves.Count == 0) caseSwitch = 1;
+            if (myPlayer.PlayerMoves.Count == 2) caseSwitch = 2;
+            if (myPlayer.PlayerMoves.Count == 3) caseSwitch = 3;
+
             switch (caseSwitch)
             {
 
-                case 1:
+                 case 1:
                     engineMoves.Add(BlockingStrategy.FirstMove(myPlayer));
-                    return engineMoves[0];
+                    return $" Computer First move is: {engineMoves[0]} ";
 
                 case 2:
-                    if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.playerMoves).Count > 0)
+                    if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.PlayerMoves).Count > 0)
                     {
-                        engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.playerMoves));
-                        return engineMoves[1];
+                        engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.PlayerMoves));
+                        return $" Computer Second move is: {engineMoves[1]} ";
                     }
-                    engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.playerMoves));
-                    return engineMoves[1];
+                    engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.PlayerMoves));
+                    return $" Computer Second move is: {engineMoves[1]} "; 
 
-                case 3:
-                    if (myPlayer.CheckWiningState()) {
-                        return 10;
+                 case 3:
+                    if (myPlayer.CheckWiningState(myPlayer.PlayerMoves)) {
+                        return "YOU WIN!";
                     }
-                    if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.playerMoves).Count > 0 && GetAllRiskyCombinationsOfTwo(myPlayer.playerMoves, engineMoves).Count < 1)
+                    if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.PlayerMoves).Count > 0
+                     && GetAllRiskyCombinationsOfTwo(myPlayer.PlayerMoves, engineMoves).Count < 1)
                     {
-                        engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.playerMoves));
-                        return engineMoves[2];
+                        engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.PlayerMoves));
+                        return $" Computer Third move is: {engineMoves[2]} ";
+                        if (myPlayer.CheckWiningState(engineMoves))
+                        {
+                            return $" Computer Third move is: {engineMoves[2]}, Haha, You loose";
+                        }
                     }
-                    engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.playerMoves));
-                    return engineMoves[2];
+                    engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.PlayerMoves));
+                    if (myPlayer.CheckWiningState(engineMoves))
+                    {
+                        return $" Computer Third move is: {engineMoves[2]}, oh Haha, You loose";
+                    }
+                    return $" Computer Third move is: {engineMoves[2]} ";
 
                  case 4:
-                    if (myPlayer.CheckWiningState())
+                    if (myPlayer.CheckWiningState(myPlayer.PlayerMoves))
                     {
-                        return 10;
+                        return "YOU WIN!";
                     }
-                    if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.playerMoves).Count > 0 && GetAllRiskyCombinationsOfTwo(myPlayer.playerMoves, engineMoves).Count < 1)
-                    {
-                        engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.playerMoves));
-                        return engineMoves[3];
-                    }
-                    engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.playerMoves));
-                    return engineMoves[3];
 
-              
-            case 5:
-                    if (myPlayer.CheckWiningState())
+                    if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.PlayerMoves).Count > 0 && GetAllRiskyCombinationsOfTwo(myPlayer.PlayerMoves, engineMoves).Count < 1)
                     {
-                        return 10;
+                        engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.PlayerMoves));
+                        return $" Computer Fourth move is: {engineMoves[3]} ";
+                        if (myPlayer.CheckWiningState(engineMoves))
+                        {
+                            return $" Computer Fourth move is: {engineMoves[3]}, Haha, You loose";
+                        }
                     }
-                    if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.playerMoves).Count > 0 && GetAllRiskyCombinationsOfTwo(myPlayer.playerMoves, engineMoves).Count < 1)
+                    engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.PlayerMoves));
+                    if (myPlayer.CheckWiningState(engineMoves))
                     {
-                        engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.playerMoves));
-                        return engineMoves[4];
+                        return $" Computer Fourth move is: {engineMoves[3]}, Haha, You loose";
                     }
-                    engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.playerMoves));
-                    return engineMoves[4];
-                  
-             
+                    return $" Computer Fourth move is: {engineMoves[3]} ";
+
+                case 5:
+                    if (myPlayer.CheckWiningState(myPlayer.PlayerMoves))
+                    {
+                        return "YOU WIN!";
+                    }
+                    if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.PlayerMoves).Count > 0 && GetAllRiskyCombinationsOfTwo(myPlayer.PlayerMoves, engineMoves).Count < 1)
+                    {
+                        engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.PlayerMoves));
+                        return $" Computer Fifth move is: {engineMoves[4]} ";
+                        if (myPlayer.CheckWiningState(engineMoves))
+                        {
+                            return $" Computer Fifth move is: {engineMoves[4]}, Haha, You loose";
+                        }
+                    }
+                    engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.PlayerMoves));
+                    if (myPlayer.CheckWiningState(engineMoves))
+                    {
+                        return $" Computer Fifth move is: {engineMoves[4]}, Haha, You loose";
+                    }
+                    return $" Computer Fifth move is: {engineMoves[4]} ";
                 default:
-                    return 11;
+                    return "Inesperated Error";
             }
-
         }
     }
 }

@@ -8,13 +8,21 @@ namespace TicTacToe
     public class MoveCombination
     {
         public List<int> combination;
-
+        int firstMove, secondMove, thirdMove; 
         public MoveCombination(int _firstMove, int _secondMove, int _thirdMove)
         {
             combination = new List<int> { };
+            firstMove = _firstMove;
+            secondMove = _secondMove;
+            thirdMove = _thirdMove; 
             combination.Add(_firstMove);
             combination.Add(_secondMove);
             combination.Add(_thirdMove);
+        }
+
+        public void AddMove(int move) {
+            if(!combination.Contains(move) && combination.Count < 3)
+            combination.Add(move); 
         }
 
         public bool CheckWiningCombination(int userMove1, int userMove2)
@@ -43,6 +51,5 @@ namespace TicTacToe
                 return true;
             return false; 
         }
-
     }
 }
