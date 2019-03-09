@@ -53,6 +53,7 @@ namespace TicTacToe
             int[,] combinations = new int[numberofcombinations, 3];
             CombinationUtil(arr, data, 0, n - 1, 0, r);
         }
+
          public bool CheckWiningState(List<int> PlayerMoves)
         {
 

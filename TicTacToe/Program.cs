@@ -43,10 +43,17 @@ namespace TicTacToe
                 }
                 if (i != 4)
                 {
-                    Console.WriteLine(MyEngine.CalculateMove(MyPlayer));
+                    string answer = MyEngine.CalculateMove(MyPlayer);
+                    if (answer.Contains(("loose"))|| answer.Contains(("WIN")))
+                    {
+                        Console.WriteLine(answer);
+                        break;
+                    }
+                    Console.WriteLine(answer);
                 }
             }
         }
+
 
         static void Main(string[] args)
         {
@@ -55,15 +62,17 @@ namespace TicTacToe
             Console.ReadKey();
             RunGame(); 
             Console.WriteLine("To restart the game type R, to close the app press any key ");
-            if (ClearMoves(Console.ReadKey().ToString())) 
+            if (ClearMoves(Console.ReadLine())) 
             {
                 goto Start;
             }
         }
 
+
+
         private static bool ClearMoves(string command)
         {
-            if (command == "R" && command == "r")
+            if (command == "R" || command == "r")
             {
                 MyPlayer.ClearMoves();
                 MyEngine.ClearMoves();

@@ -96,11 +96,12 @@ namespace TicTacToe
                      && GetAllRiskyCombinationsOfTwo(myPlayer.PlayerMoves, engineMoves).Count < 1)
                     {
                         engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.PlayerMoves));
-                        return $" Computer Third move is: {engineMoves[2]} ";
                         if (myPlayer.CheckWiningState(engineMoves))
                         {
                             return $" Computer Third move is: {engineMoves[2]}, Haha, You loose";
                         }
+                        return $" Computer Third move is: {engineMoves[2]} ";
+
                     }
                     engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.PlayerMoves));
                     if (myPlayer.CheckWiningState(engineMoves))
@@ -118,11 +119,12 @@ namespace TicTacToe
                     if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.PlayerMoves).Count > 0 && GetAllRiskyCombinationsOfTwo(myPlayer.PlayerMoves, engineMoves).Count < 1)
                     {
                         engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.PlayerMoves));
-                        return $" Computer Fourth move is: {engineMoves[3]} ";
                         if (myPlayer.CheckWiningState(engineMoves))
                         {
                             return $" Computer Fourth move is: {engineMoves[3]}, Haha, You loose";
                         }
+                        return $" Computer Fourth move is: {engineMoves[3]} ";
+
                     }
                     engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.PlayerMoves));
                     if (myPlayer.CheckWiningState(engineMoves))
@@ -139,11 +141,12 @@ namespace TicTacToe
                     if (GetAllRiskyCombinationsOfTwo(engineMoves, myPlayer.PlayerMoves).Count > 0 && GetAllRiskyCombinationsOfTwo(myPlayer.PlayerMoves, engineMoves).Count < 1)
                     {
                         engineMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(engineMoves, myPlayer.PlayerMoves));
-                        return $" Computer Fifth move is: {engineMoves[4]} ";
                         if (myPlayer.CheckWiningState(engineMoves))
                         {
                             return $" Computer Fifth move is: {engineMoves[4]}, Haha, You loose";
                         }
+                        return $" Computer Fifth move is: {engineMoves[4]} ";
+
                     }
                     engineMoves.Add(WiningStrategy.CalculateWiningMove(engineMoves, myPlayer.PlayerMoves));
                     if (myPlayer.CheckWiningState(engineMoves))

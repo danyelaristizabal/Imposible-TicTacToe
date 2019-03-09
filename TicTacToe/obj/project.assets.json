@@ -688,9 +688,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/danielaristizabaljaramillo/Projects/Imposible-TicTacToe/TicTacToe/TicTacToe.csproj",
-      "projectName": "TicTacToe",
-      "projectPath": "/Users/danielaristizabaljaramillo/Projects/Imposible-TicTacToe/TicTacToe/TicTacToe.csproj",
+      "projectUniqueName": "/Users/danielaristizabaljaramillo/Projects/Imposible-TicTacToe/TicTacToe/TicTacToeConsole.csproj",
+      "projectName": "TicTacToeConsole",
+      "projectPath": "/Users/danielaristizabaljaramillo/Projects/Imposible-TicTacToe/TicTacToe/TicTacToeConsole.csproj",
       "packagesPath": "/Users/danielaristizabaljaramillo/.nuget/packages/",
       "outputPath": "/Users/danielaristizabaljaramillo/Projects/Imposible-TicTacToe/TicTacToe/obj/",
       "projectStyle": "PackageReference",
