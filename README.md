@@ -1,54 +1,43 @@
 # Imposible-TicTacToe
-Imposible to beat console Game TicTacToe.  
+Imposible to beat computer player console Game TicTacToe.  
 
-## Getting Started
+## Getting Started, Up and running
 
-FirstOption: 
+First Option: 
 Download the whole project, open the TicTacToeSolution.sln inside Visual Studio and run it. 
 
-SecondOption: 
+Second Option: 
 Download the whole project, install .NET Core 2.2 SDK 
 
-Here a leave the link where you can download it: 
-https://dotnet.microsoft.com/download/thank-you/dotnet-sdk-2.2.104-macos-x64-installer
+Open the folder where you downloaded Imposible_TicTacToe with the terminal, 
+I have the Imposible_TicTacToe allocated in Projects
+in your case instead of Projects you will have to specify the address of 
+your directory where you downloaded the game. 
 
-Open the folder where you downloaded the project with the terminal 
-in my specific case this would be: 
-
+For example in my case this would be: 
+```
 cd Projects/Imposible_TicTacToe/TicTacToe 
+```
 
-and then run the Program.cs with dotnet run command
-
+and then run the Program.cs with dotnet run command:
+```
 dotnet run Program.cs 
+```
 
 ### Prerequisites
 
 Optional: Visual Studio Community 
-NET Core 2.2 SDK
 
-### Installing
+Necesary: .NET Core 2.2 SDK
 
-A step by step series of examples that tell you how to get a development env running
+Here I leave the link where you can download .NET Core 2.2 SDK for Mac OS X, Windows, and Linux. 
+https://dotnet.microsoft.com/download/dotnet-core/2.2
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests /// Coming soon 
+## Running the tests /// Coming 
 
 Explain how to run the automated tests for this system
 
-### Break down into end to end tests /// Coming soon 
+### Break down into end to end tests /// Coming
 
 Explain what these tests test and why
 
@@ -64,12 +53,12 @@ Explain what these tests test and why
 Give an example
 ```
 
-## Deployment /// 
+## Deployment /// Coming
 
 Add additional notes about how to deploy this on a live system
 
-## Built With
-Visual Studio Communtiy for Mac 
+## Built With 
+Visual Studio Communtiy for Mac. 
 
 ## Authors
 
@@ -82,5 +71,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 * Hat tip to anyone whose code was used
+
+I used and changed this method, in order to make all the combinations posible from an arrangement of elements.
+https://www.geeksforgeeks.org/print-all-possible-combinations-of-r-elements-in-a-given-array-of-size-n/
+
 * Inspiration
-* etc
