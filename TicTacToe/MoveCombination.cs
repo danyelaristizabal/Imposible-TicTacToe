@@ -5,13 +5,13 @@ namespace TicTacToe
     //MoveCombination is an object that wraps up 3 moves represented by numbers. 
     //This class has 3 main methods that help analizing MoveCombination type of objects. 
 
-    public class MoveCombination
+    internal class MoveCombination
     {
-        public List<int> combination;
-        int firstMove, secondMove, thirdMove; 
-        public MoveCombination(int _firstMove, int _secondMove, int _thirdMove)
+        internal List<int> combination;
+        int  firstMove, secondMove, thirdMove; 
+        internal MoveCombination(int _firstMove, int _secondMove, int _thirdMove)
         {
-            combination = new List<int> { };
+            combination = new List<int>();
             firstMove = _firstMove;
             secondMove = _secondMove;
             thirdMove = _thirdMove; 
@@ -20,35 +20,48 @@ namespace TicTacToe
             combination.Add(_thirdMove);
         }
 
-        public void AddMove(int move) {
+        internal void AddMove(int move) {
             if(!combination.Contains(move) && combination.Count < 3)
-            combination.Add(move); 
+            {
+                combination.Add(move); 
+            }
         }
 
-        public bool CheckWiningCombination(int userMove1, int userMove2)
+        internal bool CheckWiningCombination(int userMove1, int userMove2)
         {
             var counter = new int(); 
             foreach (var move in combination)
             {
-                if (userMove1 == move || move == userMove2)  counter++ ;
-                if (counter == 2) return true;
+                if (userMove1 == move || move == userMove2)
+                {
+                  counter++ ;
+                }
+                if (counter == 2)
+                {
+                 return true;
+                }
             }
             return false;
         }
 
-        public int CheckWiningMoveInCombination(int userMove1, int userMove2) {
+        internal int CheckWiningMoveInCombination(int userMove1, int userMove2) {
             var result = new int(); 
             foreach (var move in combination)
             {
-                if (userMove1 != move && move != userMove2) result = move;
+                if (userMove1 != move && move != userMove2)
+                {
+                 result = move;
+                }
             }
             return result;
         }
 
-        public bool CheckEqualityBetweenCombinations(MoveCombination combinationBeingChecked)
+        internal bool CheckEqualityBetweenCombinations(MoveCombination combinationBeingChecked)
         {
-            if (combination.Contains(combinationBeingChecked.combination[0]) && combination.Contains(combinationBeingChecked.combination[1]) && combination.Contains(combinationBeingChecked.combination[2])) 
+            if (combination.Contains(combinationBeingChecked.combination[0]) && combination.Contains(combinationBeingChecked.combination[1]) && combination.Contains(combinationBeingChecked.combination[2]))
+            {
                 return true;
+            } 
             return false; 
         }
     }

@@ -15,7 +15,6 @@ namespace TicTacToe
             MyPlayer = new Player(); 
             for (int i = 0; i < 5; i++)
             {
-
                 int move = 0;
             TryAgain:
                 Console.WriteLine($"Enter your {i + 1} move");
@@ -54,7 +53,6 @@ namespace TicTacToe
             }
         }
 
-
         static void Main(string[] args)
         {
             Start:
@@ -67,8 +65,6 @@ namespace TicTacToe
                 goto Start;
             }
         }
-
-
 
         private static bool ClearMoves(string command)
         {

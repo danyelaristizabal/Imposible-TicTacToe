@@ -1,17 +1,28 @@
 ﻿using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
+using System.Linq; 
 namespace TicTacToe
 {
 
     // Wraps all the logic behind choosing a winingMove to make a winingCombination 
-    static class WiningStrategy
+    internal static class WiningStrategy
     {
-        public static int CalculateWiningMove(List<int> engineMoves, List<int> playerMoves)
+        internal static int CalculateWiningMove(List<int> engineMoves, List<int> playerMoves)
         {
             var Rand = new Random();
-
+            var WiningMove = new List<int> ();
             List<MoveCombination> movePackage = CalculateWiningCombinationsLeft(playerMoves);
-            if(movePackage.Count == 1) {
+
+            //In the case that movePackage en up being because there is no move to do, like at the end of any 
+            // game nobody wins it will choose  randomly between the moves left to do. 
+            if(movePackage.Count == 0)
+            {
+                List<int> posibleMoves = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                var filteredList = posibleMoves.Where(i => !engineMoves.Contains(i) && !playerMoves.Contains(i)).ToList<int>();
+                return filteredList[Rand.Next(0, filteredList.Count())];
+            }
+
+            if (movePackage.Count == 1) {
                 MoveCombination theOnly = movePackage[0];
                 for (int i = 0; i < theOnly.combination.Count; i++)
                 {
@@ -22,9 +33,11 @@ namespace TicTacToe
                     }
                 }
             }
-            var WiningMove = ChooseBestMovesInCombinationsLeft(movePackage, engineMoves, playerMoves);
+             WiningMove = ChooseBestMovesInCombinationsLeft(movePackage, engineMoves, playerMoves);
             return WiningMove[Rand.Next(0, WiningMove.Count)];
         }
+
+        // Calculate all the wining combinations left in a game in any point. 
 
        private static List<MoveCombination> CalculateWiningCombinationsLeft(List<int> Moves) 
         {
@@ -37,7 +50,10 @@ namespace TicTacToe
                 {
                     for (int i = 0; i < Moves.Count - 1; i++)
                     {
-                        if(Moves[i] == move || Moves[i + 1] == move) Counter++;
+                        if(Moves[i] == move || Moves[i + 1] == move)
+                            {
+                            Counter++;
+                        } 
                     }
                 }
                 if (Counter == 0)
@@ -51,7 +67,7 @@ namespace TicTacToe
         private static List<int> ChooseBestMovesInCombinationsLeft(List<MoveCombination> combinationsLeft, 
         List<int> engineMoves, List<int> playerMoves)    
          {
-            var theChoosenOnes = new List<int> { };
+            var theChoosenOnes = new List<int>();
 
             // This cycle checks each move of engineMoves if they are completing 
             // any of the combinationsLeft, if it is completing one then calculate the block
@@ -90,7 +106,6 @@ namespace TicTacToe
             return theChoosenOnes;
 
         }
-
         //In the case that theChoosenOnes end up being empty 
         //because none of the combinations have a shared move between each other,
         //this method will add all the posible moves that can make 
@@ -99,13 +114,15 @@ namespace TicTacToe
         private static List<int> AddAllPosibleMoves(List<MoveCombination> combinationsLeft, 
             List<int> engineMoves, List<int> playerMoves ) 
         {
-            var theChoosenOnes = new List<int> { };
+            var theChoosenOnes = new List<int> ();
             foreach (var combination in combinationsLeft)
             {
                 foreach (var move in combination.combination)
                 {
                     if (!engineMoves.Contains(move) && !playerMoves.Contains(move))
+                    {
                         theChoosenOnes.Add(move);
+                    }
                 }
             }
             return theChoosenOnes; 
@@ -120,7 +137,7 @@ namespace TicTacToe
         private static List<int> FindRepeatedNumberTwoTimes(List<MoveCombination> combinationsLeft, 
             List<int> engineMoves, List<int> playerMoves) 
         {
-            var theChoosenOnes = new List<int> { };
+            var theChoosenOnes = new List<int> ();
             for (int i = 0; i < combinationsLeft.Count; i++)
             {
                 foreach (var checkingMove in combinationsLeft[i].combination)
@@ -129,12 +146,13 @@ namespace TicTacToe
                     {
                         foreach (var move in combinationsLeft[j].combination)
                             if (move == checkingMove && !engineMoves.Contains(checkingMove) && !playerMoves.Contains(checkingMove))
+                            {
                                 theChoosenOnes.Add(checkingMove);
+                            }
                     }
                 }
             }
             return theChoosenOnes; 
-
         }
     }
 }
