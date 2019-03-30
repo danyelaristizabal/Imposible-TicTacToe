@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq; 
+﻿using System.Collections.Generic;
 
 namespace TicTacToe
 {
@@ -11,8 +9,8 @@ namespace TicTacToe
         static List<MoveCombination> AllPosibilitiesList = new List<MoveCombination>(); 
         internal Player()
         {
-            PlayerMoves = new List<int> (); 
-        } 
+            PlayerMoves = new List<int>();
+        }
         internal void ClearMoves()
         { 
         PlayerMoves.Clear(); 
@@ -51,6 +49,7 @@ namespace TicTacToe
                                 end, index + 1, r);
             }
         }
+
         internal static void PrintCombination(int[] arr, int n, int r)
         {
             int[] data = new int[r];
@@ -59,11 +58,15 @@ namespace TicTacToe
             CombinationUtil(arr, data, 0, n - 1, 0, r);
         }
 
-         internal bool CheckWiningState(List<int> PlayerMoves)
+         internal bool CheckWiningState(List<int> PassedListOfMoves) // TODO : player moves with 555 or 333 says it wins 
         {
-                int[] arr = new int[PlayerMoves.Count];
-            for (int i = 0; i < PlayerMoves.Count; i++)
-                arr[i] = PlayerMoves[i]; 
+            if(PassedListOfMoves.Count < 3)
+            {
+                return false; 
+            }
+            int[] arr = new int[PassedListOfMoves.Count];
+            for (int i = 0; i < PassedListOfMoves.Count; i++)
+                arr[i] = PassedListOfMoves[i]; 
             int r = 3;
             int n = arr.Length;
             PrintCombination(arr, n, r);

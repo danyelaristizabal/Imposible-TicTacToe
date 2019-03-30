@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic; 
+﻿using System.Collections.Generic; 
 namespace TicTacToe
 {
     //MoveCombination is an object that wraps up 3 moves represented by numbers. 
@@ -9,6 +8,7 @@ namespace TicTacToe
     {
         internal List<int> combination;
         int  firstMove, secondMove, thirdMove; 
+
         internal MoveCombination(int _firstMove, int _secondMove, int _thirdMove)
         {
             combination = new List<int>();
@@ -58,11 +58,9 @@ namespace TicTacToe
 
         internal bool CheckEqualityBetweenCombinations(MoveCombination combinationBeingChecked)
         {
-            if (combination.Contains(combinationBeingChecked.combination[0]) && combination.Contains(combinationBeingChecked.combination[1]) && combination.Contains(combinationBeingChecked.combination[2]))
-            {
-                return true;
-            } 
-            return false; 
+            return combination.Contains(combinationBeingChecked.combination[0]) 
+            && combination.Contains(combinationBeingChecked.combination[1]) 
+                && combination.Contains(combinationBeingChecked.combination[2]);
         }
     }
 }

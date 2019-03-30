@@ -7,74 +7,57 @@ namespace TicTacToe
     {
         static Engine MyEngine { get; set; } 
         static Player MyPlayer { get; set; }
-        private static readonly List<int> correctMoves = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        static Game3x3 Game    { get; set; }
+        static Game9x9 Game9x9 { get; set; } // To do
 
-        private static void RunGame() 
-        {
-            MyEngine = new Engine();
-            MyPlayer = new Player(); 
-            for (int i = 0; i < 5; i++)
-            {
-                int move = 0;
-            TryAgain:
-                Console.WriteLine($"Enter your {i + 1} move");
-                try
-                {
-                    move = Convert.ToInt32(Console.ReadLine());
-                }
-                catch
-                {
-                    Console.WriteLine("Incorrect input, Only numbers from 1 to 9");
-                    Console.WriteLine("Press enter to input again");
-                    Console.ReadLine();
-                    goto TryAgain;
-                }
-                if (correctMoves.Contains(move))
-                {
-                    MyPlayer.PlayerMoves.Add(move);
-                }
-                else
-                {
-                    Console.WriteLine("Incorrect input, Only numbers from 1 to 9");
-                    Console.WriteLine("Press enter to input again");
-                    Console.ReadLine();
-                    goto TryAgain;
-                }
-                if (i != 4)
-                {
-                    string answer = MyEngine.CalculateMove(MyPlayer);
-                    if (answer.Contains(("loose"))|| answer.Contains(("WIN")))
-                    {
-                        Console.WriteLine(answer);
-                        break;
-                    }
-                    Console.WriteLine(answer);
-                }
-            }
-        }
 
         static void Main(string[] args)
         {
-            Start:
-            Console.WriteLine("Welcome to Imposible Tic-tac-toe, Press enter to start playing");
-            Console.ReadKey();
-            RunGame(); 
-            Console.WriteLine("To restart the game type R, to close the app press any key ");
-            if (ClearMoves(Console.ReadLine())) 
-            {
-                goto Start;
-            }
-        }
 
-        private static bool ClearMoves(string command)
-        {
-            if (command == "R" || command == "r")
+            MyPlayer = new Player();
+            MyEngine = new Engine();
+                string answer;
+                var Number = new int();
+                List<string> input = new List<string> { "1", "2" };
+            TryAgain:
+
+            Console.WriteLine("To play Imposible-TicTacToe press 1");
+            Console.WriteLine("To play Extreme-TicTacToe press 2");
+
+            try
             {
-                MyPlayer.ClearMoves();
-                MyEngine.ClearMoves();
-                return true;
+                answer = Console.ReadLine();
+
+                if (input.Contains(answer))
+                {
+                    Number = int.Parse(answer);
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect input, Only 1 or 2");
+                    Console.WriteLine("Press enter to input again");
+                    Console.ReadLine();
+                    goto TryAgain;
+
+                }
             }
-            return false;
+            catch
+            {
+                Console.WriteLine("Incorrect input, Only 1 or 2");
+                Console.WriteLine("Press enter to input again");
+                Console.ReadLine();
+                goto TryAgain;
+            }
+            if (Number == 1)
+            {
+                Game = new Game3x3(MyPlayer, MyEngine);
+                Game.RunGame();
+            }
+            if (Number == 2) 
+            {
+                Game9x9 = new Game9x9(MyPlayer, MyEngine);
+                Game9x9.RunGame();
+            }
         }
     }
 }
