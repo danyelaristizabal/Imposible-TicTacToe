@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq; 
 namespace TicTacToe
 {
-    internal class Game9x9 // I DONT UNDERSTAND FUCK IT
+    internal class Game9x9 
     {
         internal Player MyPlayer { get; set; }
         internal Engine MyEngine { get; set; }
