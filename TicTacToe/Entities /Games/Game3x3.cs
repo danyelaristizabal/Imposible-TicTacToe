@@ -87,7 +87,7 @@ namespace TicTacToe
                     return $" Computer First move is: {MyEngine.PlayerMoves[0]} ";
 
                 case 2:
-                    if (MyEngine.GetAllRiskyCombinationsOfTwo(MyEngine.PlayerMoves, MyPlayer.PlayerMoves).Count > 0)
+                    if (EngineManager.GetAllRiskyCombinationsOfTwo(MyEngine.PlayerMoves, MyPlayer.PlayerMoves).Count > 0)
                     {
                         MyEngine.PlayerMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(MyEngine.PlayerMoves, MyPlayer.PlayerMoves));
                         return $" Computer Second move is: {MyEngine.PlayerMoves[1]} ";
@@ -100,8 +100,8 @@ namespace TicTacToe
                     {
                         return "YOU WIN!";
                     }
-                    if (MyEngine.GetAllRiskyCombinationsOfTwo(MyEngine.PlayerMoves, MyPlayer.PlayerMoves).Count > 0
-                     && MyEngine.GetAllRiskyCombinationsOfTwo(MyPlayer.PlayerMoves, MyEngine.PlayerMoves).Count < 1)
+                    if (EngineManager.GetAllRiskyCombinationsOfTwo(MyEngine.PlayerMoves, MyPlayer.PlayerMoves).Count > 0
+                     && EngineManager.GetAllRiskyCombinationsOfTwo(MyPlayer.PlayerMoves, MyEngine.PlayerMoves).Count < 1)
                     {
                         MyEngine.PlayerMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(MyEngine.PlayerMoves, MyPlayer.PlayerMoves));
                         if (WinnerChecker.CheckState(MyEngine))
@@ -124,7 +124,7 @@ namespace TicTacToe
                         return "YOU WIN!";
                     }
 
-                    if (MyEngine.GetAllRiskyCombinationsOfTwo(MyEngine.PlayerMoves, MyPlayer.PlayerMoves).Count > 0 && MyEngine.GetAllRiskyCombinationsOfTwo(MyPlayer.PlayerMoves, MyEngine.PlayerMoves).Count < 1)
+                    if (EngineManager.GetAllRiskyCombinationsOfTwo(MyEngine.PlayerMoves, MyPlayer.PlayerMoves).Count > 0 && EngineManager.GetAllRiskyCombinationsOfTwo(MyPlayer.PlayerMoves, MyEngine.PlayerMoves).Count < 1)
                     {
                         MyEngine.PlayerMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(MyEngine.PlayerMoves, MyPlayer.PlayerMoves));
                         if (WinnerChecker.CheckState(MyEngine))
@@ -146,7 +146,7 @@ namespace TicTacToe
                     {
                         return "YOU WIN!";
                     }
-                    if (MyEngine.GetAllRiskyCombinationsOfTwo(MyEngine.PlayerMoves, MyPlayer.PlayerMoves).Count > 0 && MyEngine.GetAllRiskyCombinationsOfTwo(MyPlayer.PlayerMoves, MyEngine.PlayerMoves).Count < 1)
+                    if (EngineManager.GetAllRiskyCombinationsOfTwo(MyEngine.PlayerMoves, MyPlayer.PlayerMoves).Count > 0 && EngineManager.GetAllRiskyCombinationsOfTwo(MyPlayer.PlayerMoves, MyEngine.PlayerMoves).Count < 1)
                     {
                         MyEngine.PlayerMoves.Add(BlockingStrategy.WithAllCombinationsCalculateBlock(MyEngine.PlayerMoves, MyPlayer.PlayerMoves));
                         if (WinnerChecker.CheckState(MyEngine))

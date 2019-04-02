@@ -3,10 +3,10 @@ namespace TicTacToe
 {
     public static class CombinationManager
     {
-        internal bool CheckWiningCombination(MoveCombination MyCombination, int userMove1, int userMove2)
+        public static bool CheckWiningCombinationChance(MoveCombination combination, int userMove1, int userMove2)
         {
             var counter = new int();
-            foreach (var move in combination)
+            foreach (var move in combination.Moves)
             {
                 if (userMove1 == move || move == userMove2)
                 {
@@ -20,10 +20,10 @@ namespace TicTacToe
             return false;
         }
 
-        internal int CheckWiningMoveInCombination(int userMove1, int userMove2)
+        public static int CheckWiningMoveInCombination(MoveCombination combination, int userMove1, int userMove2)
         {
             var result = new int();
-            foreach (var move in combination)
+            foreach (var move in combination.Moves)
             {
                 if (userMove1 != move && move != userMove2)
                 {
@@ -33,11 +33,11 @@ namespace TicTacToe
             return result;
         }
 
-        internal bool CheckEqualityBetweenCombinations(MoveCombination combinationBeingChecked)
+        public static bool CheckEqualityBetweenCombinations(MoveCombination firstCombination, MoveCombination secondCombination)
         {
-            return combination.Contains(combinationBeingChecked.combination[0])
-            && combination.Contains(combinationBeingChecked.combination[1])
-                && combination.Contains(combinationBeingChecked.combination[2]);
+            return firstCombination.Moves.Contains(secondCombination.Moves[0])
+            && firstCombination.Moves.Contains(secondCombination.Moves[1])
+                && firstCombination.Moves.Contains(secondCombination.Moves[2]);
         }
     }
 }

@@ -4,58 +4,13 @@ using System.Collections.Generic;
 
 namespace TicTacToe
 {
-    public class WinnerChecker
+    public static  class WinnerChecker
     {
-        private  List<int> UnOrderedMovesList = new List<int>();
+        private static List<int> UnOrderedMovesList = new List<int>();
 
-        public WinnerChecker()
+        public static bool CheckState(IPlayer MyPlayer) // TODO : player moves with 555 or 333 says it wins 
         {
-        }
-        internal static int CalcFactorial(int number)
-        {
-            if (number == 1)
-            {
-                return 1;
-            }
-            return number * CalcFactorial(number - 1);
-        }
-
-        internal static int CalculateNumberOfPosibleCombinations(int numberOfMoves)
-        {
-            int result = CalcFactorial(numberOfMoves) / (CalcFactorial(3) * CalcFactorial(numberOfMoves - 3));
-            return result;
-        }
-
-        internal static void CombinationUtil(Player MyPlayer, int[] arr, int[] data, int start, int end, int index, int r)
-        {
-            if (index == r)
-            {
-                for (int j = 0; j < r; j++)
-                {
-                    UnOrderedMovesList.Add(data[j]);
-                }
-                return;
-            }
-            for (int i = start; i <= end &&
-                      end - i + 1 >= r - index; i++)
-            {
-                data[index] = arr[i];
-
-                CombinationUtil(MyPlayer, arr, data, i + 1,
-                                end, index + 1, r);
-            }
-        }
-
-        internal static void PrintCombination(Player MyPlayer, int[] arr, int n, int r)
-        {
-            int[] data = new int[r];
-            int numberofcombinations = CalculateNumberOfPosibleCombinations(6);
-            int[,] combinations = new int[numberofcombinations, 3];
-            CombinationUtil(MyPlayer, arr, data, 0, n - 1, 0, r);
-        }
-
-        public bool CheckState(Player MyPlayer, List<int> PassedListOfMoves) // TODO : player moves with 555 or 333 says it wins 
-        {
+            var PassedListOfMoves = MyPlayer.PlayerMoves;
             var AllPosibilitiesList = new List<MoveCombination>();
 
             if (PassedListOfMoves.Count < 3)
@@ -77,10 +32,58 @@ namespace TicTacToe
 
             foreach (var combination in AllPosibilitiesList)
             {
-                if (Engine.CheckCombinationWithWiningCombinations(combination)) return true;
+                if (EngineManager.CheckCombinationWithWiningCombinations(combination))
+                {
+
+                    return true;
+                }
             }
             return false;
-
         }
+
+        internal static int CalcFactorial(int number)
+        {
+            if (number == 1)
+            {
+                return 1;
+            }
+            return number * CalcFactorial(number - 1);
+        }
+
+        internal static int CalculateNumberOfPosibleCombinations(int numberOfMoves)
+        {
+            int result = CalcFactorial(numberOfMoves) / (CalcFactorial(3) * CalcFactorial(numberOfMoves - 3));
+            return result;
+        }
+
+        internal static void  CombinationUtil(IPlayer MyPlayer, int[] arr, int[] data, int start, int end, int index, int r)
+        {
+            if (index == r)
+            {
+                for (int j = 0; j < r; j++)
+                {
+                    UnOrderedMovesList.Add(data[j]);
+                }
+                return;
+            }
+            for (int i = start; i <= end &&
+                      end - i + 1 >= r - index; i++)
+            {
+                data[index] = arr[i];
+
+                CombinationUtil(MyPlayer, arr, data, i + 1,
+                                end, index + 1, r);
+            }
+        }
+
+        internal static void PrintCombination(IPlayer MyPlayer, int[] arr, int n, int r)
+        {
+            int[] data = new int[r];
+            int numberofcombinations = CalculateNumberOfPosibleCombinations(6);
+            int[,] combinations = new int[numberofcombinations, 3];
+            CombinationUtil(MyPlayer, arr, data, 0, n - 1, 0, r);
+        }
+
+
     }
 }

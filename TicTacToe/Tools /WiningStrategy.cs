@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq; 
+
 namespace TicTacToe
 {
 
     // Wraps all the logic behind choosing a winingMove to make a winingCombination 
-    internal static class WiningStrategy
+    public static class WiningStrategy
     {
-        internal static int CalculateWiningMove(List<int> engineMoves, List<int> playerMoves)
+        public static int CalculateWiningMove(List<int> engineMoves, List<int> playerMoves)
         {
 
-            var Rand = new Random();
-            var WiningMove = new List<int> ();
+            var rand = new Random();
+            var winingMove = new List<int> ();
             List<MoveCombination> movePackage = CalculateWiningCombinationsLeft(playerMoves);
             //In the case that movePackage end up being because there is no move to do, like at the end of any 
             // game nobody wins it will choose randomly between the moves left to do. 
@@ -21,23 +22,23 @@ namespace TicTacToe
                 List<int> posibleMoves = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 var filteredList = posibleMoves.Where(i => !engineMoves.Contains(i) && !playerMoves.Contains(i)).ToList<int>();
 
-                return filteredList[Rand.Next(0, filteredList.Count())];
+                return filteredList[rand.Next(0, filteredList.Count())];
             }
 
             if (movePackage.Count == 1) {
                 MoveCombination theOnly = movePackage[0];
-                for (int i = 0; i < theOnly.combination.Count; i++)
+                for (int i = 0; i < theOnly.Moves.Count; i++)
                 {
-                    if (!engineMoves.Contains(theOnly.combination[i]) 
-                    && !playerMoves.Contains(theOnly.combination[i]))
+                    if (!engineMoves.Contains(theOnly.Moves[i]) 
+                    && !playerMoves.Contains(theOnly.Moves[i]))
                     {
-                        return theOnly.combination[i]; 
+                        return theOnly.Moves[i]; 
                     }
                 }
             }
-             WiningMove = ChooseBestMovesInCombinationsLeft(movePackage, engineMoves, playerMoves);
+             winingMove = ChooseBestMovesInCombinationsLeft(movePackage, engineMoves, playerMoves);
 
-            return WiningMove[Rand.Next(0, WiningMove.Count)];
+            return winingMove[rand.Next(0, winingMove.Count)];
         }
 
         // Calculate all the wining combinations left in a game in any point. 
@@ -47,10 +48,10 @@ namespace TicTacToe
 
             var combinationsLeft = new List<MoveCombination> { };
 
-            foreach (var combination in Engine.winingCombinations)
+            foreach (var combination in EngineManager.winingCombinations)
             {
                 int Counter = 0;
-                foreach (var move in combination.combination)
+                foreach (var move in combination.Moves)
                 {
                     if (Moves.Contains(move)) 
                     {
@@ -84,7 +85,7 @@ namespace TicTacToe
                 var move2 = new int();
                 foreach (var move in engineMoves)
                 {
-                    if (combination.combination.Contains(move)) 
+                    if (combination.Moves.Contains(move)) 
                     {
                         if (counter == 0) 
                         {
@@ -95,7 +96,7 @@ namespace TicTacToe
                     if(counter == 2) 
                     {
                         move2 = move; 
-                        theChoosenOnes.Add(Engine.CalculateBlock(move1, move2)); // here it adds the 0 
+                        theChoosenOnes.Add(EngineManager.CalculateBlock(move1, move2)); // here it adds the 0 
                         return theChoosenOnes; 
                     } 
                 }
@@ -122,7 +123,7 @@ namespace TicTacToe
             var theChoosenOnes = new List<int> ();
             foreach (var combination in combinationsLeft)
             {
-                foreach (var move in combination.combination)
+                foreach (var move in combination.Moves)
                 {
                     if (!engineMoves.Contains(move) && !playerMoves.Contains(move))
                     {
@@ -145,11 +146,11 @@ namespace TicTacToe
             var theChoosenOnes = new List<int> ();
             for (int i = 0; i < combinationsLeft.Count; i++)
             {
-                foreach (var checkingMove in combinationsLeft[i].combination)
+                foreach (var checkingMove in combinationsLeft[i].Moves)
                 {
                     for (int j = i + 1; j < combinationsLeft.Count; j++)
                     {
-                        foreach (var move in combinationsLeft[j].combination)
+                        foreach (var move in combinationsLeft[j].Moves)
                             if (move == checkingMove && !engineMoves.Contains(checkingMove) && !playerMoves.Contains(checkingMove))
                             {
                                 theChoosenOnes.Add(checkingMove);

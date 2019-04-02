@@ -4,7 +4,7 @@ using TicTacToe;
 
 namespace BackEndTests
 {
-    public class UnitTest1
+    public class PLayerTests // TODO Write a function for each function in PlayerManager 
     {
         [Fact]
         public void Test1()

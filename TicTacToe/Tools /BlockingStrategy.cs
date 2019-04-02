@@ -18,19 +18,17 @@ namespace TicTacToe
 
          internal static bool ThereIsANeedToBlock(List<int> engineMoves, List<int> playerMoves ) 
          {
-            Engine engine = new Engine(); 
-            return engine.GetAllRiskyCombinationsOfTwo(engineMoves, playerMoves).Count > 0;
+            return EngineManager.GetAllRiskyCombinationsOfTwo(engineMoves, playerMoves).Count > 0;
          }
           
          internal static int WithAllCombinationsCalculateBlock(List<int> engineMoves, List<int> playerMoves) 
          {
-            Engine engine = new Engine();
             List<int> blocks = new List<int>(); 
-            foreach (var combination in engine.GetAllRiskyCombinationsOfTwo(engineMoves, playerMoves))
+            foreach (var combination in EngineManager.GetAllRiskyCombinationsOfTwo(engineMoves, playerMoves))
             {
-                if (!engineMoves.Contains(Engine.CalculateBlock(combination[0], combination[1])))
+                if (!engineMoves.Contains(EngineManager.CalculateBlock(combination[0], combination[1])))
                 {
-                   blocks.Add(Engine.CalculateBlock(combination[0], combination[1]));
+                   blocks.Add(EngineManager.CalculateBlock(combination[0], combination[1]));
                 }
             }
             var rand = new Random();

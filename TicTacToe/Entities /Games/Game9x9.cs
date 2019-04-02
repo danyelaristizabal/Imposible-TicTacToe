@@ -85,7 +85,7 @@ namespace TicTacToe
                         Console.WriteLine("Table closed, computer will choose another one");
                         move = ComputerChooseTable();
                         Console.WriteLine($"Choosed table : {move} ");
-                        ComputerMove = MyEngine.CalculateMove(UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
+                        ComputerMove = EngineManager.CalculateMove(UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
 
 
                         Console.WriteLine($"EngineMoves on current table: {move}");
@@ -127,7 +127,7 @@ namespace TicTacToe
                         move = ComputerChooseTable();
 
                         Console.WriteLine($"Choosed table :{move}");
-                        ComputerMove = MyEngine.CalculateMove(UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
+                        ComputerMove = EngineManager.CalculateMove(UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
 
                         Console.WriteLine($"EngineMoves on current table: {move}");
                         UltimateGame[move - 1].GetEngineMoves().ForEach(i => Console.Write(i));
@@ -158,7 +158,7 @@ namespace TicTacToe
                         goto Table;
                     }
 
-                     ComputerMove = MyEngine.CalculateMove(UltimateGame[NextTable - 1].GetEngine(), UltimateGame[NextTable -1].GetPlayer());
+                     ComputerMove = EngineManager.CalculateMove(UltimateGame[NextTable - 1].GetEngine(), UltimateGame[NextTable -1].GetPlayer());
 
                     Console.WriteLine($"EngineMoves on next table: {NextTable}");
                     UltimateGame[NextTable - 1].GetEngineMoves().ForEach(i => Console.Write(i));
@@ -211,11 +211,11 @@ namespace TicTacToe
         public int ComputerChooseTable() 
         {
 
-            var calculated = MyEngine.CalculateMove(MyEngine, MyPlayer);
+            var calculated = EngineManager.CalculateMove(MyEngine, MyPlayer);
             while (MyEngine.PlayerMoves.Contains(calculated) || MyPlayer.PlayerMoves.Contains(calculated)) 
             {
                 Console.WriteLine("not finded");
-                calculated = MyEngine.CalculateMove(MyEngine, MyPlayer);
+                calculated = EngineManager.CalculateMove(MyEngine, MyPlayer);
             }
             return calculated;
         }

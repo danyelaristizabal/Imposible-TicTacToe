@@ -11,10 +11,8 @@ namespace TicTacToe
         static Game3x3 Game    { get; set; }
         static Game9x9 Game9x9 { get; set; } // To do
 
-
         static void Main(string[] args)
         {
-
             MyPlayer = new Player();
             MyEngine = new Engine();
                 string answer;
