@@ -3,55 +3,61 @@ using System.Collections.Generic;
 
 namespace TicTacToe
 {
-    internal class PartialGame
+    internal class PartialGameManager
     {
         public bool Winned { get; set; }
-        internal  Player MyPlayer { get; set; }
-        internal  Engine MyEngine { get; set; }
+        public Game MyGame { get; set; }
         public int Index { get; set; }
         public int PartialId { get; set; }
         public int NextMove { get; set;  }
+
         private static readonly List<int> correctMoves = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        internal PartialGame(Player _Player, Engine _Engine, int _PartialId)
+
+        internal PartialGameManager(Game _MyGame, int _PartialId)
         {
-            MyPlayer = _Player;
-            MyEngine = _Engine;
+            MyGame = _MyGame; 
             Index = 0;
             Winned = false; 
             PartialId = _PartialId; 
         }
+
         public void ChangeWinnedState() 
         {
             Winned = true; 
         }
+
         public void AddToPlayermove(int move)
         {
-            MyPlayer.PlayerMoves.Add(move);
-
+            MyGame.MyPlayer.Moves.Add(move);
         }
+
         public void AddToEnginemove(int move)
         {
-            MyEngine.PlayerMoves.Add(move);
+            MyGame.MyEngine.Moves.Add(move);
         }
+
         public List<int> GetPlayerMoves ()
         {
-            return MyPlayer.PlayerMoves;
+            return MyGame.MyPlayer.Moves;
         }
+
         public List<int> GetEngineMoves ()
         {
-            return MyEngine.PlayerMoves; 
+            return MyGame.MyEngine.Moves; 
         }
+
         public Engine GetEngine() 
         {
-            return MyEngine;
+            return MyGame.MyEngine;
         }
+
         public Player GetPlayer() 
         {
-            return MyPlayer; 
+            return MyGame.MyPlayer; 
         }
+
         public int RunGame()
         {
-
             Console.WriteLine($"Welcome to the partial table number {PartialId + 1}");
             Console.ReadKey();
            
@@ -73,7 +79,7 @@ namespace TicTacToe
 
                 if (correctMoves.Contains(move))
                 {
-                    MyPlayer.PlayerMoves.Add(move);
+                    MyGame.MyPlayer.Moves.Add(move);
                 }
                 else
                 {
@@ -88,18 +94,16 @@ namespace TicTacToe
                 return move; 
         }
 
-
         internal bool ClearMoves(string command)
         {
             if (command == "R" || command == "r")
             {
-                MyPlayer.ClearMoves();
-                MyEngine.ClearMoves();
+                MyGame.MyPlayer.ClearMoves();
+                MyGame.MyEngine.ClearMoves();
                 Index = 0; 
                 return true;
             }
             return false;
         }
-
     }
 }

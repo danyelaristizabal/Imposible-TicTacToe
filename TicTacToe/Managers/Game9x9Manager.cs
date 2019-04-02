@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq; 
 namespace TicTacToe
 {
-    internal class Game9x9
+    internal class Game9x9Manager 
     {
-        internal Player MyPlayer { get; set; }
-        internal Engine MyEngine { get; set; }
+        public Game MyGame { get; set; }
         public int NextTable { get; set; }
 
-        internal static List<PartialGame> UltimateGame { get; set; }
-        private static  List<int> correctMoves = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        internal static List<PartialGameManager> UltimateGame { get; set; }
 
-        public Game9x9(Player _MyPlayer, Engine _MyEngine)
+        public bool Over { get; set; }
+        public bool Draw { get; set; }
+
+        public Game9x9Manager(Game _game )
         {
-            MyPlayer = _MyPlayer;
-            MyEngine = _MyEngine;
-            UltimateGame = new List<PartialGame>();
-           
+            MyGame = _game; 
+            UltimateGame = new List<PartialGameManager>();
 
             for (int i = 0; i < 9; i++)
             {
-                UltimateGame.Add(new PartialGame(new Player(), new Engine(), i)); // check that in this way they end up with the correct indexes 
+                UltimateGame.Add(new PartialGameManager(new Game(new Player(), new Engine()),  i)); // check that in this way they end up with the correct indexes 
             }
         }
 
@@ -37,20 +35,19 @@ namespace TicTacToe
                 
                 if (ClearMoves(Console.ReadLine()))
                 {
-                    
                     goto Start;
                 }
-
         }
 
         public void RunPartialGame() 
         {
             int move = 0;
+
             TryAgain:
+
             Console.WriteLine("Choose game table");
             try
             {
-
                 move = Convert.ToInt32(Console.ReadLine());
             }
             catch
@@ -58,22 +55,28 @@ namespace TicTacToe
                 Console.WriteLine("Incorrect input, Only numbers from 1 to 9");
                 Console.WriteLine("Press enter to input again");
                 Console.ReadLine();
+
                 goto TryAgain;
             }
             Console.ReadKey();
-            while (!WinnerChecker.CheckState(MyPlayer) && !WinnerChecker.CheckState(MyEngine))
+
+            while (!WinnerStateChecker.CheckState(MyGame.MyPlayer) && !WinnerStateChecker.CheckState(MyGame.MyEngine))
             {
                 Table:
-                if (correctMoves.Contains(move)
-                && !MyEngine.PlayerMoves.Contains(move)
-                && !MyPlayer.PlayerMoves.Contains(move))
+
+                if (EngineManager.correctMoves.Contains(move)
+                && !MyGame.MyEngine.Moves.Contains(move)
+                && !MyGame.MyPlayer.Moves.Contains(move))
                 {
                     int ComputerMove;
+
                     Console.WriteLine($"EngineMoves on current table: {move}");
-                    UltimateGame[move - 1].GetEngineMoves().ForEach(i => Console.Write(i));
+
+                    UltimateGame[move - 1].GetEngineMoves().ForEach(Console.Write);
+
                     Console.WriteLine();
                     Console.WriteLine($"PlayerMoves on current table: {move}");
-                    UltimateGame[move - 1].GetPlayerMoves().ForEach(i => Console.Write(i));
+                    UltimateGame[move - 1].GetPlayerMoves().ForEach(Console.Write);
 
 
 
@@ -89,23 +92,22 @@ namespace TicTacToe
 
 
                         Console.WriteLine($"EngineMoves on current table: {move}");
-                        UltimateGame[move - 1].GetEngineMoves().ForEach(i => Console.Write(i));
+                        UltimateGame[move - 1].GetEngineMoves().ForEach(Console.Write);
                         Console.WriteLine();
                         Console.WriteLine($"PlayerMoves on current table: {move}");
-                        UltimateGame[move - 1].GetPlayerMoves().ForEach(i => Console.Write(i));
+                        UltimateGame[move - 1].GetPlayerMoves().ForEach(Console.Write);
 
 
                         Console.WriteLine($"Calculated Move: {ComputerMove} ");
                         UltimateGame[NextTable - 1].AddToEnginemove(ComputerMove);
 
-
-                        if (WinnerChecker.CheckState(UltimateGame[NextTable - 1].GetEngine())) // here 
+                        if (WinnerStateChecker.CheckState(UltimateGame[NextTable - 1].GetEngine())) // here 
                         {
                             Console.WriteLine($"Computer Won table {NextTable}");
                             Console.WriteLine($"EngineMoves on current table: {NextTable}");
-                            UltimateGame[NextTable - 1].GetEngineMoves().ForEach(i => Console.Write(i));
+                            UltimateGame[NextTable - 1].GetEngineMoves().ForEach(Console.Write);
                             Console.ReadKey();
-                            MyEngine.PlayerMoves.Add(NextTable);
+                            MyGame.MyEngine.Moves.Add(NextTable);
                             UltimateGame[NextTable - 1].ChangeWinnedState();
                             Console.ReadKey();
                             goto TryAgain;
@@ -117,12 +119,12 @@ namespace TicTacToe
 
 
 
-                    if (WinnerChecker.CheckState(UltimateGame[move - 1].GetPlayer()))
+                    if (WinnerStateChecker.CheckState(UltimateGame[move - 1].GetPlayer()))
                     {
                         Console.WriteLine($"Player won table: {move}");
                         Console.WriteLine($"PlayerMoves on current table: {move}");
-                        UltimateGame[move - 1].GetPlayerMoves().ForEach(i => Console.Write(i));
-                        MyPlayer.PlayerMoves.Add(move);
+                        UltimateGame[move - 1].GetPlayerMoves().ForEach(Console.Write);
+                        MyGame.MyPlayer.Moves.Add(move);
                         UltimateGame[move - 1].ChangeWinnedState();
                         move = ComputerChooseTable();
 
@@ -130,23 +132,23 @@ namespace TicTacToe
                         ComputerMove = EngineManager.CalculateMove(UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
 
                         Console.WriteLine($"EngineMoves on current table: {move}");
-                        UltimateGame[move - 1].GetEngineMoves().ForEach(i => Console.Write(i));
+                        UltimateGame[move - 1].GetEngineMoves().ForEach(Console.Write);
                         Console.WriteLine();
                         Console.WriteLine($"PlayerMoves on current table: {move}");
-                        UltimateGame[move - 1].GetPlayerMoves().ForEach(i => Console.Write(i));
+                        UltimateGame[move - 1].GetPlayerMoves().ForEach(Console.Write);
 
 
 
                         Console.WriteLine($"Calculated Move: {ComputerMove} ");
                         UltimateGame[move - 1].AddToEnginemove(ComputerMove);
 
-                        if (WinnerChecker.CheckState(UltimateGame[move - 1].GetEngine()))
+                        if (WinnerStateChecker.CheckState(UltimateGame[move - 1].GetEngine()))
                         {
                             Console.WriteLine($"Computer Won table {move}");
                             Console.WriteLine($"EngineMoves on current table: {move}");
-                            UltimateGame[move - 1].GetEngineMoves().ForEach(i => Console.Write(i));
+                            UltimateGame[move - 1].GetEngineMoves().ForEach(Console.Write);
                             Console.ReadKey();
-                            MyEngine.PlayerMoves.Add(move);
+                            MyGame.MyEngine.Moves.Add(move);
                             UltimateGame[move - 1].ChangeWinnedState();
                             Console.ReadKey();
                             goto TryAgain;
@@ -171,13 +173,13 @@ namespace TicTacToe
 
                     UltimateGame[NextTable - 1].AddToEnginemove(ComputerMove);
 
-                    if (WinnerChecker.CheckState(UltimateGame[NextTable - 1].GetEngine()))
+                    if (WinnerStateChecker.CheckState(UltimateGame[NextTable - 1].GetEngine()))
                     {
                         Console.WriteLine($"Computer Won table: {NextTable}");
                         Console.WriteLine($"EngineMoves on current table: {NextTable}");
                         UltimateGame[NextTable - 1].GetEngineMoves().ForEach(i => Console.Write(i));
                         Console.ReadKey();
-                        MyEngine.PlayerMoves.Add(NextTable);
+                        MyGame.MyEngine.Moves.Add(NextTable);
                         UltimateGame[NextTable - 1].ChangeWinnedState(); 
                         Console.ReadKey(); 
                         goto TryAgain;
@@ -192,30 +194,27 @@ namespace TicTacToe
                     goto TryAgain; 
                 }
 
-                if (WinnerChecker.CheckState(MyPlayer))
+                if (WinnerStateChecker.CheckState(MyGame.MyPlayer))
                 {
                     Console.WriteLine("PlayerWins 9x9 Game");
                     break; 
                 }
-                if (WinnerChecker.CheckState(MyEngine))
+                if (WinnerStateChecker.CheckState(MyGame.MyEngine))
                 {
                     Console.WriteLine("PlayerWins 9x9 Game");
                     break; 
                 }
-
             }
-
-              
         }
 
         public int ComputerChooseTable() 
         {
 
-            var calculated = EngineManager.CalculateMove(MyEngine, MyPlayer);
-            while (MyEngine.PlayerMoves.Contains(calculated) || MyPlayer.PlayerMoves.Contains(calculated)) 
+            var calculated = EngineManager.CalculateMove(MyGame.MyEngine, MyGame.MyPlayer);
+            while (MyGame.MyEngine.Moves.Contains(calculated) || MyGame.MyPlayer.Moves.Contains(calculated)) 
             {
                 Console.WriteLine("not finded");
-                calculated = EngineManager.CalculateMove(MyEngine, MyPlayer);
+                calculated = EngineManager.CalculateMove(MyGame.MyEngine, MyGame.MyPlayer);
             }
             return calculated;
         }
@@ -228,8 +227,8 @@ namespace TicTacToe
             {
                 UltimateGame.ForEach(i => i.ClearMoves(command));
                 UltimateGame.ForEach(i => i.ChangeWinnedState()); 
-                MyPlayer.ClearMoves();
-                MyEngine.ClearMoves(); 
+                MyGame.MyPlayer.ClearMoves();
+                MyGame.MyEngine.ClearMoves(); 
                 return true; 
             }
             return false;
