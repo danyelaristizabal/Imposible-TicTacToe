@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 
 namespace TicTacToe
 {
     class Program
     {
+        
         static Engine MyEngine { get; set; } 
         static Player MyPlayer { get; set; }
         static Game3x3 Game    { get; set; }

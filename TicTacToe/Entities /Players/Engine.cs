@@ -2,18 +2,23 @@
 namespace TicTacToe
 {
     // Wraps all the logic related to analisis of moves, uses moveCombination class, Blocking and Wining strategy to calculate the bestmove in each point of the game. 
-    internal class Engine 
+    public class Engine : IPlayer 
     {
         internal static readonly List<MoveCombination> winingCombinations =
         new List<MoveCombination> { new MoveCombination(1, 2, 3), new MoveCombination(4, 5, 6), 
         new MoveCombination(7, 8, 9), new MoveCombination(1, 5, 9),new MoveCombination(7, 5, 3), 
-        new MoveCombination(1, 4, 7), new MoveCombination(2, 5, 8),new MoveCombination(3, 6, 9)}; 
+        new MoveCombination(1, 4, 7), new MoveCombination(2, 5, 8),new MoveCombination(3, 6, 9)};
+         
+        public List<int> PlayerMoves { get; set; }
 
-        internal List<int> engineMoves = new List<int>();
-
+        public Engine() 
+        {
+            PlayerMoves = new List<int>(); 
+        }
         internal void ClearMoves() {
-            engineMoves.Clear(); 
+            PlayerMoves.Clear(); 
         } 
+
         internal static int CalculateBlock(int userMove1, int userMove2)
         {
             foreach (var combination in winingCombinations)
@@ -65,12 +70,12 @@ namespace TicTacToe
 
         internal int CalculateMove(Engine MyEngine, Player MyPlayer) 
         {
-            if (MyEngine.GetAllRiskyCombinationsOfTwo(MyEngine.engineMoves, MyPlayer.PlayerMoves).Count > 0
-                   && MyEngine.GetAllRiskyCombinationsOfTwo(MyEngine.engineMoves, MyPlayer.PlayerMoves).Count < 1)
+            if (MyEngine.GetAllRiskyCombinationsOfTwo(MyEngine.PlayerMoves, MyPlayer.PlayerMoves).Count > 0
+                   && MyEngine.GetAllRiskyCombinationsOfTwo(MyEngine.PlayerMoves, MyPlayer.PlayerMoves).Count < 1)
             {
-                return BlockingStrategy.WithAllCombinationsCalculateBlock(MyEngine.engineMoves, MyPlayer.PlayerMoves);
+                return BlockingStrategy.WithAllCombinationsCalculateBlock(MyEngine.PlayerMoves, MyPlayer.PlayerMoves);
             }
-            return WiningStrategy.CalculateWiningMove(MyEngine.engineMoves, MyPlayer.PlayerMoves);
+            return WiningStrategy.CalculateWiningMove(MyEngine.PlayerMoves, MyPlayer.PlayerMoves);
         }
     }
 }

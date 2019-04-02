@@ -1,25 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+
 
 namespace TicTacToe
 {
-    internal class Player /// Wraps all the player functions logic
+    public class WinnerChecker
     {
-        internal List<int> PlayerMoves { get; set;  }
-        static List<int> UnOrderedMovesList = new List<int>();
-        static List<MoveCombination> AllPosibilitiesList = new List<MoveCombination>(); 
-        internal Player()
+        private  List<int> UnOrderedMovesList = new List<int>();
+
+        public WinnerChecker()
         {
-            PlayerMoves = new List<int>();
-        }
-        internal void ClearMoves()
-        { 
-        PlayerMoves.Clear(); 
         }
         internal static int CalcFactorial(int number)
         {
             if (number == 1)
             {
-             return 1;
+                return 1;
             }
             return number * CalcFactorial(number - 1);
         }
@@ -30,7 +26,7 @@ namespace TicTacToe
             return result;
         }
 
-        internal static void CombinationUtil(int[] arr, int[] data, int start, int end, int index, int r)
+        internal static void CombinationUtil(Player MyPlayer, int[] arr, int[] data, int start, int end, int index, int r)
         {
             if (index == r)
             {
@@ -45,50 +41,46 @@ namespace TicTacToe
             {
                 data[index] = arr[i];
 
-                CombinationUtil(arr, data, i + 1,
+                CombinationUtil(MyPlayer, arr, data, i + 1,
                                 end, index + 1, r);
             }
         }
 
-        internal static void PrintCombination(int[] arr, int n, int r)
+        internal static void PrintCombination(Player MyPlayer, int[] arr, int n, int r)
         {
             int[] data = new int[r];
             int numberofcombinations = CalculateNumberOfPosibleCombinations(6);
             int[,] combinations = new int[numberofcombinations, 3];
-            CombinationUtil(arr, data, 0, n - 1, 0, r);
+            CombinationUtil(MyPlayer, arr, data, 0, n - 1, 0, r);
         }
 
-         internal bool CheckWiningState(List<int> PassedListOfMoves) // TODO : player moves with 555 or 333 says it wins 
+        public bool CheckState(Player MyPlayer, List<int> PassedListOfMoves) // TODO : player moves with 555 or 333 says it wins 
         {
-            if(PassedListOfMoves.Count < 3)
+            var AllPosibilitiesList = new List<MoveCombination>();
+
+            if (PassedListOfMoves.Count < 3)
             {
-                return false; 
+                return false;
             }
+
             int[] arr = new int[PassedListOfMoves.Count];
             for (int i = 0; i < PassedListOfMoves.Count; i++)
-                arr[i] = PassedListOfMoves[i]; 
+                arr[i] = PassedListOfMoves[i];
             int r = 3;
             int n = arr.Length;
-            PrintCombination(arr, n, r);
+            PrintCombination(MyPlayer, arr, n, r);
 
             for (int i = 0; i <= UnOrderedMovesList.Count - 3; i = i + 3)
             {
                 AllPosibilitiesList.Add(new MoveCombination(UnOrderedMovesList[i], UnOrderedMovesList[i + 1], UnOrderedMovesList[i + 2]));
             }
-            int switch_on = AllPosibilitiesList.Count;
 
-            switch (switch_on)
+            foreach (var combination in AllPosibilitiesList)
             {
-                case 1: return false;
-                case 2: return false;
-
-                default:
-                    foreach (var combination in AllPosibilitiesList)
-                    {
-                        if (Engine.CheckCombinationWithWiningCombinations(combination)) return true;
-                    }
-                    return false;
+                if (Engine.CheckCombinationWithWiningCombinations(combination)) return true;
             }
+            return false;
+
         }
     }
 }

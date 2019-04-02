@@ -5,6 +5,7 @@ namespace TicTacToe
 {
     internal class PartialGame
     {
+        public bool Winned { get; set; }
         internal  Player MyPlayer { get; set; }
         internal  Engine MyEngine { get; set; }
         public int Index { get; set; }
@@ -16,7 +17,12 @@ namespace TicTacToe
             MyPlayer = _Player;
             MyEngine = _Engine;
             Index = 0;
+            Winned = false; 
             PartialId = _PartialId; 
+        }
+        public void ChangeWinnedState() 
+        {
+            Winned = true; 
         }
         public void AddToPlayermove(int move)
         {
@@ -25,7 +31,7 @@ namespace TicTacToe
         }
         public void AddToEnginemove(int move)
         {
-            MyEngine.engineMoves.Add(move);
+            MyEngine.PlayerMoves.Add(move);
         }
         public List<int> GetPlayerMoves ()
         {
@@ -33,7 +39,7 @@ namespace TicTacToe
         }
         public List<int> GetEngineMoves ()
         {
-            return MyEngine.engineMoves; 
+            return MyEngine.PlayerMoves; 
         }
         public Engine GetEngine() 
         {
