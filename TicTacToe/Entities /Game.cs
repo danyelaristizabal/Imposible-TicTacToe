@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace TicTacToe
+﻿namespace TicTacToe
 {
     public class Game 
     {
-        public Player MyPlayer  { get; set; }
-        public Engine MyEngine { get; set; }
+        public IPlayer MyPlayer  { get; set; }
+        public IPlayer MyEngine { get; set; }
         public bool Over { get; set; }
         public bool Draw { get; set; }
 
-        public Game(Player _Player, Engine _Engine)
+        public Game(IPlayer _Player, IPlayer _Engine)
         {
           MyPlayer = _Player;
           MyEngine = _Engine;

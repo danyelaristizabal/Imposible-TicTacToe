@@ -4,10 +4,12 @@ namespace TicTacToe
 {
     public static class EngineManager
     {
-        internal static readonly List<MoveCombination> winingCombinations =
+        public static readonly List<MoveCombination> winingCombinations =
         new List<MoveCombination> { new MoveCombination(1, 2, 3), new MoveCombination(4, 5, 6),
         new MoveCombination(7, 8, 9), new MoveCombination(1, 5, 9),new MoveCombination(7, 5, 3),
         new MoveCombination(1, 4, 7), new MoveCombination(2, 5, 8),new MoveCombination(3, 6, 9)};
+
+        public static readonly List<int> correctMoves = new List<int>{1,2,3,4,5,6,7,6,7,8,9 };
 
         internal static int CalculateBlock(int userMove1, int userMove2)
         {
@@ -59,14 +61,14 @@ namespace TicTacToe
             return false;
         }
 
-        internal static int CalculateMove(Engine MyEngine, Player MyPlayer)
+        internal static int CalculateMove(IPlayer MyEngine, IPlayer MyPlayer)
         {
-            if (GetAllRiskyCombinationsOfTwo(MyEngine.PlayerMoves, MyPlayer.PlayerMoves).Count > 0
-                   && GetAllRiskyCombinationsOfTwo(MyEngine.PlayerMoves, MyPlayer.PlayerMoves).Count < 1)
+            if (GetAllRiskyCombinationsOfTwo(MyEngine.Moves, MyPlayer.Moves).Count > 0
+                   && GetAllRiskyCombinationsOfTwo(MyEngine.Moves, MyPlayer.Moves).Count < 1)
             {
-                return BlockingStrategy.WithAllCombinationsCalculateBlock(MyEngine.PlayerMoves, MyPlayer.PlayerMoves);
+                return BlockingStrategy.WithAllCombinationsCalculateBlock(MyEngine.Moves, MyPlayer.Moves);
             }
-            return WiningStrategy.CalculateWiningMove(MyEngine.PlayerMoves, MyPlayer.PlayerMoves);
+            return WiningStrategy.CalculateWiningMove(MyEngine.Moves, MyPlayer.Moves);
         }
 
     }

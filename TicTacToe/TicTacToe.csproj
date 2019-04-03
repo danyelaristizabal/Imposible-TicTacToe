@@ -13,7 +13,6 @@
     <Folder Include="Entities \" />
     <Folder Include="Tools \" />
     <Folder Include="Managers\" />
-    <Folder Include="Entities \Games\" />
     <Folder Include="Entities \Players\" />
   </ItemGroup>
 </Project>

@@ -20,7 +20,7 @@ namespace TicTacToe
             if (movePackage.Count == 0)
             {
                 List<int> posibleMoves = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-                var filteredList = posibleMoves.Where(i => !engineMoves.Contains(i) && !playerMoves.Contains(i)).ToList<int>();
+                var filteredList = posibleMoves.Where(i => !engineMoves.Contains(i) && !playerMoves.Contains(i)).ToList();
 
                 return filteredList[rand.Next(0, filteredList.Count())];
             }
@@ -69,10 +69,9 @@ namespace TicTacToe
 
 
         private static List<int> ChooseBestMovesInCombinationsLeft(List<MoveCombination> combinationsLeft, 
-        List<int> engineMoves, List<int> playerMoves)    // to do check this method 
+        List<int> engineMoves, List<int> playerMoves)    // TODO check this method 
          {
             var theChoosenOnes = new List<int>();
-
 
             // This cycle checks each move of engineMoves if they are completing 
             // any of the combinationsLeft, if it is completing one then calculate the block

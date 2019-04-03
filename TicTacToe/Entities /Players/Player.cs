@@ -4,14 +4,24 @@ namespace TicTacToe
 {
     public class Player :IPlayer /// Wraps all the player functions logic
     {
-        public List<int> PlayerMoves { get; set;  }
+        public string Id { get; private set; }
+
+        private string Password { get; set; }
+
+        public List<int> Moves { get; set;  }
+
         public Player()
         {
-            PlayerMoves = new List<int>();
+
+            Moves = new List<int>();
+
         }
-        internal void ClearMoves()
-        { 
-        PlayerMoves.Clear(); 
+
+        public void ClearMoves()
+        {
+         
+        Moves.Clear(); 
+
         }
     }
 }

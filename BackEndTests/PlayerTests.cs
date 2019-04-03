@@ -10,10 +10,10 @@ namespace BackEndTests
         public void Test1()
         {
             var player = new Player();
-            player.PlayerMoves.Add(5);
-            player.PlayerMoves.Add(5);
-            player.PlayerMoves.Add(5);
-            var result =  WinnerChecker.CheckState(player);
+            player.Moves.Add(5);
+            player.Moves.Add(5);
+            player.Moves.Add(5);
+            var result =  WinnerStateChecker.CheckState(player);
             Assert.True(result = true);
         }
     }

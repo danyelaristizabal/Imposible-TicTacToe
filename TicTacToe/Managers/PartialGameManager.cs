@@ -46,12 +46,12 @@ namespace TicTacToe
             return MyGame.MyEngine.Moves; 
         }
 
-        public Engine GetEngine() 
+        public IPlayer GetEngine() 
         {
             return MyGame.MyEngine;
         }
 
-        public Player GetPlayer() 
+        public IPlayer GetPlayer() 
         {
             return MyGame.MyPlayer; 
         }

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace TicTacToe
 {
-    public static  class WinnerChecker
+    public static  class WinnerStateChecker
     {
         private static List<int> UnOrderedMovesList = new List<int>();
 
         public static bool CheckState(IPlayer MyPlayer) // TODO : player moves with 555 or 333 says it wins 
         {
-            var PassedListOfMoves = MyPlayer.PlayerMoves;
+            var PassedListOfMoves = MyPlayer.Moves;
             var AllPosibilitiesList = new List<MoveCombination>();
 
             if (PassedListOfMoves.Count < 3)

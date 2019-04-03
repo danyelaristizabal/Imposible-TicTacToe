@@ -5,11 +5,9 @@ namespace TicTacToe
 {
     public static class PlayerManager
     {
-        static void ClearMoves(Player MyPlayer)
+        static void ClearMoves(IPlayer MyPlayer)
         {
-            MyPlayer.PlayerMoves.Clear();
+            MyPlayer.Moves.Clear();
         }
-
-
     }
 }

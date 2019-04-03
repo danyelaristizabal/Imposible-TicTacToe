@@ -1,7 +1,7 @@
 ﻿using System;
 namespace TicTacToe
 {
-    public static class CombinationManager
+    public class CombinationManager
     {
         public static bool CheckWiningCombinationChance(MoveCombination combination, int userMove1, int userMove2)
         {
@@ -21,7 +21,7 @@ namespace TicTacToe
         }
 
         public static int CheckWiningMoveInCombination(MoveCombination combination, int userMove1, int userMove2)
-        {
+        {   
             var result = new int();
             foreach (var move in combination.Moves)
             {

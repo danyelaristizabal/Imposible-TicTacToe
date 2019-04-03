@@ -6,15 +6,18 @@ namespace TicTacToe
     class Program
     {
         
-        static Engine MyEngine { get; set; } 
-        static Player MyPlayer { get; set; }
-        static Game3x3 Game    { get; set; }
-        static Game9x9 Game9x9 { get; set; } // To do
+        static IPlayer MyEngine { get; set; } 
+        static IPlayer MyPlayer { get; set; }
+        static Game MyGame    { get; set; }
+        static Game3x3Manager GameManager { get; set; }
+        static Game9x9Manager Game9x9 { get; set; } 
 
         static void Main(string[] args)
         {
+
             MyPlayer = new Player();
             MyEngine = new Engine();
+
                 string answer;
                 var Number = new int();
                 List<string> input = new List<string> { "1", "2" };
@@ -37,7 +40,6 @@ namespace TicTacToe
                     Console.WriteLine("Press enter to input again");
                     Console.ReadLine();
                     goto TryAgain;
-
                 }
             }
             catch
@@ -49,12 +51,14 @@ namespace TicTacToe
             }
             if (Number == 1)
             {
-                Game = new Game3x3(MyPlayer, MyEngine);
-                Game.RunGame();
+                MyGame = new Game(MyPlayer, MyEngine);
+                GameManager = new Game3x3Manager(MyGame);
+                GameManager.RunGame(); 
             }
             if (Number == 2) 
             {
-                Game9x9 = new Game9x9(MyPlayer, MyEngine);
+                MyGame = new Game(MyPlayer, MyEngine);
+                Game9x9 = new Game9x9Manager(MyGame);
                 Game9x9.RunGame();
             }
         }

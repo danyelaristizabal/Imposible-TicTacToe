@@ -19,7 +19,7 @@ namespace TicTacToe
 
             for (int i = 0; i < 9; i++)
             {
-                UltimateGame.Add(new PartialGameManager(new Game(new Player(), new Engine()),  i)); // check that in this way they end up with the correct indexes 
+                UltimateGame.Add(new PartialGameManager(new Game(new Player(), new Engine()),  i));
             }
         }
 

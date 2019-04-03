@@ -5,6 +5,9 @@ namespace TicTacToe
 {
     public interface IPlayer
     {
-         List<int> PlayerMoves { get; set; }
+         List<int> Moves { get; set; }
+         void ClearMoves();
+        
     }
+
 }

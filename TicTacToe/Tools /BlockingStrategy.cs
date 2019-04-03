@@ -5,11 +5,11 @@ namespace TicTacToe
     // Wraps all the logic behind analyzing the player and calculate a blocking move when is needed. 
     internal static class BlockingStrategy
     {
-         private static readonly int[] corners = { 1, 3, 7, 9 };
-        internal static int FirstMove(Player myPlayer)
+        internal static int FirstMove(IPlayer myPlayer)
          {
-            if (myPlayer.PlayerMoves[0] == 5)
-            {
+            if (myPlayer.Moves[0] == 5)
+            { 
+            int[] corners = { 1, 3, 7, 9 };
                 var Rand = new Random();
                 return corners[Rand.Next(0, corners.Length)];
             }
