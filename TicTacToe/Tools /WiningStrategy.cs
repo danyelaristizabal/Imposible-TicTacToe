@@ -19,10 +19,10 @@ namespace TicTacToe
 
             if (movePackage.Count == 0)
             {
-                List<int> posibleMoves = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-                var filteredList = posibleMoves.Where(i => !engineMoves.Contains(i) && !playerMoves.Contains(i)).ToList();
+                var filteredList = Constants.correctMoves.Where(i => !engineMoves.Contains(i) && !playerMoves.Contains(i)).ToList();
 
                 return filteredList[rand.Next(0, filteredList.Count())];
+
             }
 
             if (movePackage.Count == 1) {
@@ -48,7 +48,7 @@ namespace TicTacToe
 
             var combinationsLeft = new List<MoveCombination> { };
 
-            foreach (var combination in EngineManager.winingCombinations)
+            foreach (var combination in Constants.winingCombinations)
             {
                 int Counter = 0;
                 foreach (var move in combination.Moves)

@@ -4,9 +4,8 @@ using TicTacToe;
 
 namespace BackEndTests
 {
-    public class MoveCombinationTests
+    public class WinnerStateCheckerTests
     {
-       
         [Fact]
         public void CheckWiningCombinationTest() 
         {

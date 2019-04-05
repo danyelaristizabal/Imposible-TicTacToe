@@ -14,5 +14,6 @@
     <Folder Include="Tools \" />
     <Folder Include="Managers\" />
     <Folder Include="Entities \Players\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 </Project>

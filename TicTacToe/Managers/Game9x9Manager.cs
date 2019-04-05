@@ -64,7 +64,7 @@ namespace TicTacToe
             {
                 Table:
 
-                if (EngineManager.correctMoves.Contains(move)
+                if (Constants.correctMoves.Contains(move)
                 && !MyGame.MyEngine.Moves.Contains(move)
                 && !MyGame.MyPlayer.Moves.Contains(move))
                 {

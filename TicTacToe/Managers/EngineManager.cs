@@ -4,16 +4,9 @@ namespace TicTacToe
 {
     public static class EngineManager
     {
-        public static readonly List<MoveCombination> winingCombinations =
-        new List<MoveCombination> { new MoveCombination(1, 2, 3), new MoveCombination(4, 5, 6),
-        new MoveCombination(7, 8, 9), new MoveCombination(1, 5, 9),new MoveCombination(7, 5, 3),
-        new MoveCombination(1, 4, 7), new MoveCombination(2, 5, 8),new MoveCombination(3, 6, 9)};
-
-        public static readonly List<int> correctMoves = new List<int>{1,2,3,4,5,6,7,6,7,8,9 };
-
         internal static int CalculateBlock(int userMove1, int userMove2)
         {
-            foreach (var combination in winingCombinations)
+            foreach (var combination in Constants.winingCombinations)
             {
                 if (CombinationManager.CheckWiningCombinationChance(combination, userMove1, userMove2))
                 {
@@ -39,7 +32,7 @@ namespace TicTacToe
 
         internal static bool CheckCombination(int Move1, int Move2) // Only used inside Engine 
         {
-            foreach (var combination in winingCombinations)
+            foreach (var combination in Constants.winingCombinations)
             {
                 if (CombinationManager.CheckWiningCombinationChance(combination, Move1, Move2))
                 {
@@ -51,7 +44,7 @@ namespace TicTacToe
 
         internal static bool CheckCombinationWithWiningCombinations(MoveCombination playerCombination)
         {
-            foreach (var combination in winingCombinations)
+            foreach (var combination in Constants.winingCombinations)
             {
                 if (CombinationManager.CheckEqualityBetweenCombinations(combination, playerCombination))
                 {

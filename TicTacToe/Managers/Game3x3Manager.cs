@@ -41,7 +41,9 @@ namespace TicTacToe
                     Console.ReadLine();
                     goto TryAgain;
                 }
-                if (EngineManager.correctMoves.Contains(move))
+
+
+                if (Constants.correctMoves.Contains(move))
                 {
                     MyGame.MyPlayer.Moves.Add(move);
                 }

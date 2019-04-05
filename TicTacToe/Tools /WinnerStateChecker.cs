@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq; 
 
 namespace TicTacToe
 {
@@ -50,19 +50,22 @@ namespace TicTacToe
             return number * CalcFactorial(number - 1);
         }
 
-        internal static int CalculateNumberOfPosibleCombinations(int numberOfMoves)
+        public static int CalculateNumberOfPosibleCombinations(int numberOfMoves)
         {
+            if(numberOfMoves == 3) {return 1;} // in case is 3 
             int result = CalcFactorial(numberOfMoves) / (CalcFactorial(3) * CalcFactorial(numberOfMoves - 3));
             return result;
         }
 
         internal static void  CombinationUtil(IPlayer MyPlayer, int[] arr, int[] data, int start, int end, int index, int r)
         {
+            Console.WriteLine("inside the loop n:" + end + " r:" + r);
             if (index == r)
             {
                 for (int j = 0; j < r; j++)
                 {
                     UnOrderedMovesList.Add(data[j]);
+                    Console.Write("Added:" + data[j]);
                 }
                 return;
             }
@@ -79,9 +82,14 @@ namespace TicTacToe
         internal static void PrintCombination(IPlayer MyPlayer, int[] arr, int n, int r)
         {
             int[] data = new int[r];
-            int numberofcombinations = CalculateNumberOfPosibleCombinations(6);
-            int[,] combinations = new int[numberofcombinations, 3];
+            int numberOfCombinations = CalculateNumberOfPosibleCombinations(n);
+            int[,] combinations = new int[numberOfCombinations, 3];
+            Console.WriteLine("before entering the loop n:" + n + " r:" + r );
+
             CombinationUtil(MyPlayer, arr, data, 0, n - 1, 0, r);
+            Console.WriteLine("After the loop:");
+            UnOrderedMovesList.ForEach(Console.Write);
+            Console.WriteLine();
         }
 
 

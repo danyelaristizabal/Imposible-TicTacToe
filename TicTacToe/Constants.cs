@@ -2,7 +2,7 @@
 using System.Collections.Generic; 
 namespace TicTacToe
 {
-    public static class LocationConstants
+    public static class Constants
     {
         public static readonly List<MoveCombination> winingCombinations =
         new List<MoveCombination> {

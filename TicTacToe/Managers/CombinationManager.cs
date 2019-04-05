@@ -1,7 +1,7 @@
 ﻿using System;
 namespace TicTacToe
 {
-    public class CombinationManager
+    public static class CombinationManager
     {
         public static bool CheckWiningCombinationChance(MoveCombination combination, int userMove1, int userMove2)
         {

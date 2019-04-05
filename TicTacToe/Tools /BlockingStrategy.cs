@@ -9,9 +9,8 @@ namespace TicTacToe
          {
             if (myPlayer.Moves[0] == 5)
             { 
-            int[] corners = { 1, 3, 7, 9 };
                 var Rand = new Random();
-                return corners[Rand.Next(0, corners.Length)];
+                return Constants.corners[Rand.Next(0, Constants.corners.Count)];
             }
             return 5;
          }
@@ -20,7 +19,6 @@ namespace TicTacToe
          {
             return EngineManager.GetAllRiskyCombinationsOfTwo(engineMoves, playerMoves).Count > 0;
          }
-          
          internal static int WithAllCombinationsCalculateBlock(List<int> engineMoves, List<int> playerMoves) 
          {
             List<int> blocks = new List<int>(); 

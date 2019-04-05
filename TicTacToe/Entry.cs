@@ -14,7 +14,6 @@ namespace TicTacToe
 
         static void Main(string[] args)
         {
-
             MyPlayer = new Player();
             MyEngine = new Engine();
 
