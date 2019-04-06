@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace TicTacToe
 {
-    internal class Game9x9Manager 
+    internal class Game9x9Manager
     {
         public Game MyGame { get; set; }
         public int NextTable { get; set; }
@@ -12,34 +12,34 @@ namespace TicTacToe
         public bool Over { get; set; }
         public bool Draw { get; set; }
 
-        public Game9x9Manager(Game _game )
+        public Game9x9Manager(Game _game)
         {
-            MyGame = _game; 
+            MyGame = _game;
             UltimateGame = new List<PartialGameManager>();
 
             for (int i = 0; i < 9; i++)
             {
-                UltimateGame.Add(new PartialGameManager(new Game(new Player(), new Engine()),  i));
+                UltimateGame.Add(new PartialGameManager(new Game(new Player(), new Engine()), i));
             }
         }
 
-        public void RunGame() 
+        public void RunGame()
         {
-                Start:
-                Console.WriteLine("Welcome to Extreme Tic-tac-toe, Press enter to start playing");
-                Console.ReadKey();
-                
-                RunPartialGame();
-                
-                Console.WriteLine("To restart the game type R, to close the app press any key ");
-                
-                if (ClearMoves(Console.ReadLine()))
-                {
-                    goto Start;
-                }
+        Start:
+            Console.WriteLine("Welcome to Extreme Tic-tac-toe, Press enter to start playing");
+            Console.ReadKey();
+
+            RunPartialGames();
+
+            Console.WriteLine("To restart the game type R, to close the app press any key ");
+
+            if (ClearMoves(Console.ReadLine()))
+            {
+                goto Start;
+            }
         }
 
-        public void RunPartialGame() 
+        public void RunPartialGames() 
         {
             int move = 0;
 
@@ -49,67 +49,64 @@ namespace TicTacToe
             try
             {
                 move = Convert.ToInt32(Console.ReadLine());
+                if (!TableInputValidator(MyGame, move)) 
+                {
+                    goto TryAgain; 
+                }
             }
-            catch
+            catch // validating correct input 
             {
-                Console.WriteLine("Incorrect input, Only numbers from 1 to 9");
+                Console.WriteLine("Incorrect input, Only numbers from 1 to 9"); 
                 Console.WriteLine("Press enter to input again");
                 Console.ReadLine();
 
                 goto TryAgain;
             }
-            Console.ReadKey();
 
             while (!WinnerStateChecker.CheckState(MyGame.MyPlayer) && !WinnerStateChecker.CheckState(MyGame.MyEngine))
             {
-                Table:
-
-                if (Constants.correctMoves.Contains(move)
-                && !MyGame.MyEngine.Moves.Contains(move)
-                && !MyGame.MyPlayer.Moves.Contains(move))
-                {
+                    Table:
                     int ComputerMove;
-
-                    Console.WriteLine($"EngineMoves on current table: {move}");
-
-                    UltimateGame[move - 1].GetEngineMoves().ForEach(Console.Write);
-
-                    Console.WriteLine();
-                    Console.WriteLine($"PlayerMoves on current table: {move}");
-                    UltimateGame[move - 1].GetPlayerMoves().ForEach(Console.Write);
-
-
-
+                    
                     NextTable = UltimateGame[move - 1].RunGame();
-
-                    if (UltimateGame[NextTable - 1].Winned)
+                    
+                    if (UltimateGame[NextTable - 1].Winned) // Checking if somebody won the table before and handle choosing 
+                                                            //table until we start again with new table move 
                     {
-                        move = ComputerChooseTable();
                         Console.WriteLine("Table closed, computer will choose another one");
+                    // -------------- choosing next table logic 
                         move = ComputerChooseTable();
-                        Console.WriteLine($"Choosed table : {move} ");
+
+                    Console.WriteLine($"Choosed table: {move}"); 
+                           
+                        DisplayMovesOfPartialGame(move); 
+
                         ComputerMove = EngineManager.CalculateMove(UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
 
+                        Console.WriteLine($"Calculated Move: {ComputerMove}");
 
-                        Console.WriteLine($"EngineMoves on current table: {move}");
-                        UltimateGame[move - 1].GetEngineMoves().ForEach(Console.Write);
-                        Console.WriteLine();
-                        Console.WriteLine($"PlayerMoves on current table: {move}");
-                        UltimateGame[move - 1].GetPlayerMoves().ForEach(Console.Write);
-
-
-                        Console.WriteLine($"Calculated Move: {ComputerMove} ");
                         UltimateGame[NextTable - 1].AddToEnginemove(ComputerMove);
 
-                        if (WinnerStateChecker.CheckState(UltimateGame[NextTable - 1].GetEngine())) // here 
+                        NextTable = ComputerMove; 
+
+                        if (WinnerStateChecker.CheckState(UltimateGame[NextTable - 1].GetEngine())) // Checking if computer won last table, if so handling logic. 
                         {
+
                             Console.WriteLine($"Computer Won table {NextTable}");
-                            Console.WriteLine($"EngineMoves on current table: {NextTable}");
-                            UltimateGame[NextTable - 1].GetEngineMoves().ForEach(Console.Write);
-                            Console.ReadKey();
+
+                            DisplayMovesOfPartialGame(NextTable); 
+
                             MyGame.MyEngine.Moves.Add(NextTable);
+
+                            if (Game9x9Checker(MyGame.MyEngine))   
+                            {
+                                Console.WriteLine("Computer WON 9x9 Game");
+                                MyGame.Over = true;
+                                break;
+                            }
+
                             UltimateGame[NextTable - 1].ChangeWinnedState();
-                            Console.ReadKey();
+
                             goto TryAgain;
                         }
 
@@ -118,56 +115,63 @@ namespace TicTacToe
                     }
 
 
-
-                    if (WinnerStateChecker.CheckState(UltimateGame[move - 1].GetPlayer()))
+                    if (WinnerStateChecker.CheckState(UltimateGame[move - 1].GetPlayer())) // Checking if player won, if so handling choosing next table logic 
                     {
+                       // -------------- choosing next table logic 
                         Console.WriteLine($"Player won table: {move}");
-                        Console.WriteLine($"PlayerMoves on current table: {move}");
-                        UltimateGame[move - 1].GetPlayerMoves().ForEach(Console.Write);
+
+                        DisplayMovesOfPartialGame(move); 
+
                         MyGame.MyPlayer.Moves.Add(move);
+
+                        if (Game9x9Checker(MyGame.MyPlayer))  
+                        {
+                            Console.WriteLine("Player WON 9x9 Game");
+                            MyGame.Over = true;
+                            break;
+                        }
+
                         UltimateGame[move - 1].ChangeWinnedState();
+                        
                         move = ComputerChooseTable();
 
                         Console.WriteLine($"Choosed table :{move}");
+
+                        DisplayMovesOfPartialGame(move); 
+
                         ComputerMove = EngineManager.CalculateMove(UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
 
-                        Console.WriteLine($"EngineMoves on current table: {move}");
-                        UltimateGame[move - 1].GetEngineMoves().ForEach(Console.Write);
-                        Console.WriteLine();
-                        Console.WriteLine($"PlayerMoves on current table: {move}");
-                        UltimateGame[move - 1].GetPlayerMoves().ForEach(Console.Write);
-
-
-
                         Console.WriteLine($"Calculated Move: {ComputerMove} ");
+
                         UltimateGame[move - 1].AddToEnginemove(ComputerMove);
 
                         if (WinnerStateChecker.CheckState(UltimateGame[move - 1].GetEngine()))
                         {
                             Console.WriteLine($"Computer Won table {move}");
-                            Console.WriteLine($"EngineMoves on current table: {move}");
-                            UltimateGame[move - 1].GetEngineMoves().ForEach(Console.Write);
-                            Console.ReadKey();
+
+                            DisplayMovesOfPartialGame(move); 
+
                             MyGame.MyEngine.Moves.Add(move);
+
+                            if (Game9x9Checker(MyGame.MyEngine))  //TODO  create a function that handles all wining logic 
+                            {
+                                Console.WriteLine("Computer WON 9x9 Game");
+                                MyGame.Over = true;
+                                break;
+                            }
+
                             UltimateGame[move - 1].ChangeWinnedState();
-                            Console.ReadKey();
+
                             goto TryAgain;
                         }
-
                         move = ComputerMove;
-                        Console.ReadKey();
-                        Console.ReadLine();
+
                         goto Table;
                     }
 
-                     ComputerMove = EngineManager.CalculateMove(UltimateGame[NextTable - 1].GetEngine(), UltimateGame[NextTable -1].GetPlayer());
+                    ComputerMove = EngineManager.CalculateMove(UltimateGame[NextTable - 1].GetEngine(), UltimateGame[NextTable - 1].GetPlayer());
 
-                    Console.WriteLine($"EngineMoves on next table: {NextTable}");
-                    UltimateGame[NextTable - 1].GetEngineMoves().ForEach(i => Console.Write(i));
-                    Console.WriteLine();
-                    Console.WriteLine($"PlayerMoves on next table: {NextTable}");
-                    UltimateGame[NextTable - 1].GetPlayerMoves().ForEach(i => Console.Write(i));
-
+                    DisplayMovesOfPartialGame(NextTable); 
 
                     Console.WriteLine($"Calculated Move: {ComputerMove} ");
 
@@ -176,52 +180,80 @@ namespace TicTacToe
                     if (WinnerStateChecker.CheckState(UltimateGame[NextTable - 1].GetEngine()))
                     {
                         Console.WriteLine($"Computer Won table: {NextTable}");
-                        Console.WriteLine($"EngineMoves on current table: {NextTable}");
-                        UltimateGame[NextTable - 1].GetEngineMoves().ForEach(i => Console.Write(i));
-                        Console.ReadKey();
+
+                        DisplayMovesOfPartialGame(NextTable);
+
                         MyGame.MyEngine.Moves.Add(NextTable);
-                        UltimateGame[NextTable - 1].ChangeWinnedState(); 
-                        Console.ReadKey(); 
+
+                        if (Game9x9Checker(MyGame.MyEngine))  //TODO  create a function that handles all wining logic 
+                        {
+                            Console.WriteLine("Engine wins 9x9 Game");
+                            MyGame.Over = true;
+                            break;
+                        }
+
+                        UltimateGame[NextTable - 1].ChangeWinnedState();
                         goto TryAgain;
                     }
-
                     move = ComputerMove;
-                }
-                else 
-                {
-                    Console.WriteLine("Wrong move, sending flow to try again");
-                    Console.ReadKey(); 
-                    goto TryAgain; 
-                }
-
-                if (WinnerStateChecker.CheckState(MyGame.MyPlayer))
-                {
-                    Console.WriteLine("PlayerWins 9x9 Game");
-                    break; 
-                }
-                if (WinnerStateChecker.CheckState(MyGame.MyEngine))
-                {
-                    Console.WriteLine("PlayerWins 9x9 Game");
-                    break; 
-                }
             }
+        }
+
+        static bool TableInputValidator(Game MyGame, int move)
+        {
+
+            if (!Constants.correctMoves.Contains(move)) // Validating correct input
+            {
+                Console.WriteLine("Incorrect input, Only numbers from 1 to 9");
+
+                Console.WriteLine("Press enter to input again");
+
+                Console.ReadLine();
+                return false;
+            }
+            if (MyGame.MyEngine.Moves.Contains(move) // Validating choosen table taken state
+            || MyGame.MyPlayer.Moves.Contains(move))
+            {
+                Console.WriteLine("taken table, sending flow to choose table ");
+                Console.ReadKey();
+                return false;
+            }
+            return true;
+        }
+
+        static void DisplayMovesOfPartialGame(int _partialId) 
+        {
+            Console.WriteLine($"EngineMoves on current table: {_partialId}");
+
+            UltimateGame[_partialId - 1].GetEngineMoves().ForEach(Console.Write);
+
+            Console.WriteLine();
+
+            Console.WriteLine($"PlayerMoves on current table: {_partialId}");
+
+            UltimateGame[_partialId - 1].GetPlayerMoves().ForEach(Console.Write);
+
+            Console.WriteLine();
+
+        }
+
+        static bool Game9x9Checker(IPlayer player) 
+        {
+            return WinnerStateChecker.CheckState(player);
         }
 
         public int ComputerChooseTable() 
         {
 
             var calculated = EngineManager.CalculateMove(MyGame.MyEngine, MyGame.MyPlayer);
-            while (MyGame.MyEngine.Moves.Contains(calculated) || MyGame.MyPlayer.Moves.Contains(calculated)) 
+            while (!MyGame.MyEngine.Moves.Contains(calculated) && !MyGame.MyPlayer.Moves.Contains(calculated)) 
             {
                 Console.WriteLine("not finded");
                 calculated = EngineManager.CalculateMove(MyGame.MyEngine, MyGame.MyPlayer);
             }
             return calculated;
         }
-
-        
-
-        public bool ClearMoves(string command) // check this, is not 
+        public bool ClearMoves(string command) //TODO Check this method. 
         {
             if (command == "R" || command == "r") 
             {
