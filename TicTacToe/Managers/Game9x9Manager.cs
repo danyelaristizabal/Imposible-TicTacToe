@@ -12,9 +12,9 @@ namespace TicTacToe
         public bool Over { get; set; }
         public bool Draw { get; set; }
 
-        public Game9x9Manager(Game _game)
+        public Game9x9Manager(Game game)
         {
-            MyGame = _game;
+            MyGame = game;
             UltimateGame = new List<PartialGameManager>();
 
             for (int i = 0; i < 9; i++)
@@ -26,6 +26,7 @@ namespace TicTacToe
         public void RunGame()
         {
         Start:
+
             Console.WriteLine("Welcome to Extreme Tic-tac-toe, Press enter to start playing");
             Console.ReadKey();
 
@@ -46,18 +47,24 @@ namespace TicTacToe
             TryAgain:
 
             Console.WriteLine("Choose game table");
+
             try
             {
                 move = Convert.ToInt32(Console.ReadLine());
+
                 if (!TableInputValidator(MyGame, move)) 
                 {
+
                     goto TryAgain; 
+
                 }
             }
             catch // validating correct input 
             {
                 Console.WriteLine("Incorrect input, Only numbers from 1 to 9"); 
+
                 Console.WriteLine("Press enter to input again");
+
                 Console.ReadLine();
 
                 goto TryAgain;
@@ -81,7 +88,7 @@ namespace TicTacToe
                            
                         DisplayMovesOfPartialGame(move); 
 
-                        ComputerMove = EngineManager.CalculateMove(UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
+                        ComputerMove = CalculateMove(MyGame, UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
 
                         Console.WriteLine($"Calculated Move: {ComputerMove}");
 
@@ -139,7 +146,7 @@ namespace TicTacToe
 
                         DisplayMovesOfPartialGame(move); 
 
-                        ComputerMove = EngineManager.CalculateMove(UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
+                        ComputerMove = CalculateMove(MyGame, UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
 
                         Console.WriteLine($"Calculated Move: {ComputerMove} ");
 
@@ -169,7 +176,7 @@ namespace TicTacToe
                         goto Table;
                     }
 
-                    ComputerMove = EngineManager.CalculateMove(UltimateGame[NextTable - 1].GetEngine(), UltimateGame[NextTable - 1].GetPlayer());
+                    ComputerMove = CalculateMove(MyGame, UltimateGame[NextTable - 1].GetEngine(), UltimateGame[NextTable - 1].GetPlayer());
 
                     DisplayMovesOfPartialGame(NextTable); 
 
@@ -199,7 +206,17 @@ namespace TicTacToe
             }
         }
 
-        static bool TableInputValidator(Game MyGame, int move)
+        static int CalculateMove(Game game, IPlayer computer, IPlayer player) 
+        {
+            int result = EngineManager.CalculateMove(computer, player); 
+            while (!TableInputValidator(game, result))
+            {
+                result = EngineManager.CalculateMove(computer, player);
+            }
+            return result; 
+        }
+
+        static bool TableInputValidator(Game Game, int move)
         {
 
             if (!Constants.correctMoves.Contains(move)) // Validating correct input
@@ -211,8 +228,8 @@ namespace TicTacToe
                 Console.ReadLine();
                 return false;
             }
-            if (MyGame.MyEngine.Moves.Contains(move) // Validating choosen table taken state
-            || MyGame.MyPlayer.Moves.Contains(move))
+            if (Game.MyEngine.Moves.Contains(move) // Validating choosen table taken state
+            || Game.MyPlayer.Moves.Contains(move))
             {
                 Console.WriteLine("taken table, sending flow to choose table ");
                 Console.ReadKey();
@@ -246,21 +263,30 @@ namespace TicTacToe
         {
 
             var calculated = EngineManager.CalculateMove(MyGame.MyEngine, MyGame.MyPlayer);
+
             while (!MyGame.MyEngine.Moves.Contains(calculated) && !MyGame.MyPlayer.Moves.Contains(calculated)) 
             {
+
                 Console.WriteLine("not finded");
+
                 calculated = EngineManager.CalculateMove(MyGame.MyEngine, MyGame.MyPlayer);
+
             }
             return calculated;
         }
+
         public bool ClearMoves(string command) //TODO Check this method. 
         {
             if (command == "R" || command == "r") 
             {
                 UltimateGame.ForEach(i => i.ClearMoves(command));
+
                 UltimateGame.ForEach(i => i.ChangeWinnedState()); 
+
                 MyGame.MyPlayer.ClearMoves();
+
                 MyGame.MyEngine.ClearMoves(); 
+
                 return true; 
             }
             return false;
