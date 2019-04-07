@@ -60,8 +60,17 @@ namespace TicTacToe
         {
             Console.WriteLine($"Welcome to the partial table number {PartialId + 1}");
             Console.ReadKey();
-           
-                int move = 0;
+
+            Console.WriteLine($"EngineMoves on current table: {PartialId + 1}"); // Printing all moves in this table for orientation porposes 
+            GetEngineMoves().ForEach(Console.Write);
+
+            Console.WriteLine();
+
+            Console.WriteLine($"PlayerMoves on current table: {PartialId + 1}");
+            GetPlayerMoves().ForEach(Console.Write);
+
+
+            int move = 0;
             TryAgain:
                 Console.WriteLine($"Enter your {Index + 1} move");
                 try

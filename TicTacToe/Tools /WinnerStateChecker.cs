@@ -10,6 +10,7 @@ namespace TicTacToe
 
         public static bool CheckState(IPlayer MyPlayer) // TODO : player moves with 555 or 333 says it wins 
         {
+
             var PassedListOfMoves = MyPlayer.Moves;
             var AllPosibilitiesList = new List<MoveCombination>();
 
@@ -34,10 +35,11 @@ namespace TicTacToe
             {
                 if (EngineManager.CheckCombinationWithWiningCombinations(combination))
                 {
-
+                    UnOrderedMovesList.Clear();
                     return true;
                 }
             }
+            UnOrderedMovesList.Clear();
             return false;
         }
 
@@ -59,13 +61,11 @@ namespace TicTacToe
 
         internal static void  CombinationUtil(IPlayer MyPlayer, int[] arr, int[] data, int start, int end, int index, int r)
         {
-            Console.WriteLine("inside the loop n:" + end + " r:" + r);
             if (index == r)
             {
                 for (int j = 0; j < r; j++)
                 {
                     UnOrderedMovesList.Add(data[j]);
-                    Console.Write("Added:" + data[j]);
                 }
                 return;
             }
@@ -84,12 +84,8 @@ namespace TicTacToe
             int[] data = new int[r];
             int numberOfCombinations = CalculateNumberOfPosibleCombinations(n);
             int[,] combinations = new int[numberOfCombinations, 3];
-            Console.WriteLine("before entering the loop n:" + n + " r:" + r );
 
             CombinationUtil(MyPlayer, arr, data, 0, n - 1, 0, r);
-            Console.WriteLine("After the loop:");
-            UnOrderedMovesList.ForEach(Console.Write);
-            Console.WriteLine();
         }
 
 

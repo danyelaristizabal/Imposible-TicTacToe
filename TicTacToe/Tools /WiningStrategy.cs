@@ -10,7 +10,6 @@ namespace TicTacToe
     {
         public static int CalculateWiningMove(List<int> engineMoves, List<int> playerMoves)
         {
-
             var rand = new Random();
             var winingMove = new List<int> ();
             List<MoveCombination> movePackage = CalculateWiningCombinationsLeft(playerMoves);
@@ -65,8 +64,6 @@ namespace TicTacToe
             }
             return combinationsLeft;
         }
-
-
 
         private static List<int> ChooseBestMovesInCombinationsLeft(List<MoveCombination> combinationsLeft, 
         List<int> engineMoves, List<int> playerMoves)    // TODO check this method 
