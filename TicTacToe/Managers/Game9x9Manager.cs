@@ -82,7 +82,7 @@ namespace TicTacToe
                     {
                         Console.WriteLine("Table closed, computer will choose another one");
                     // -------------- choosing next table logic 
-                        move = ComputerChooseTable();
+                        move = EngineManager.ComputerChooseTable(MyGame);
 
                     Console.WriteLine($"Choosed table: {move}"); 
                            
@@ -140,7 +140,7 @@ namespace TicTacToe
 
                         UltimateGame[move - 1].ChangeWinnedState();
                         
-                        move = ComputerChooseTable();
+                        move = EngineManager.ComputerChooseTable(MyGame);
 
                         Console.WriteLine($"Choosed table :{move}");
 
@@ -160,7 +160,7 @@ namespace TicTacToe
 
                             MyGame.MyEngine.Moves.Add(move);
 
-                            if (Game9x9Checker(MyGame.MyEngine))  //TODO  create a function that handles all wining logic 
+                            if (Game9x9Checker(MyGame.MyEngine))   
                             {
                                 Console.WriteLine("Computer WON 9x9 Game");
                                 MyGame.Over = true;
@@ -192,7 +192,7 @@ namespace TicTacToe
 
                         MyGame.MyEngine.Moves.Add(NextTable);
 
-                        if (Game9x9Checker(MyGame.MyEngine))  //TODO  create a function that handles all wining logic 
+                        if (Game9x9Checker(MyGame.MyEngine))  
                         {
                             Console.WriteLine("Engine wins 9x9 Game");
                             MyGame.Over = true;
@@ -259,23 +259,9 @@ namespace TicTacToe
             return WinnerStateChecker.CheckState(player);
         }
 
-        public int ComputerChooseTable() 
-        {
+       
 
-            var calculated = EngineManager.CalculateMove(MyGame.MyEngine, MyGame.MyPlayer);
-
-            while (!MyGame.MyEngine.Moves.Contains(calculated) && !MyGame.MyPlayer.Moves.Contains(calculated)) 
-            {
-
-                Console.WriteLine("not finded");
-
-                calculated = EngineManager.CalculateMove(MyGame.MyEngine, MyGame.MyPlayer);
-
-            }
-            return calculated;
-        }
-
-        public bool ClearMoves(string command) //TODO Check this method. 
+        public bool ClearMoves(string command) 
         {
             if (command == "R" || command == "r") 
             {

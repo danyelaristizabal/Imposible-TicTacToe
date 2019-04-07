@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq; 
 namespace TicTacToe
 {
     public static class EngineManager
@@ -62,6 +63,24 @@ namespace TicTacToe
                 return BlockingStrategy.WithAllCombinationsCalculateBlock(MyEngine.Moves, MyPlayer.Moves);
             }
             return WiningStrategy.CalculateWiningMove(MyEngine.Moves, MyPlayer.Moves);
+        }
+
+        public static int ComputerChooseTable(Game MyGame) 
+        {
+            var calculated = CalculateMove(MyGame.MyEngine, MyGame.MyPlayer);
+            int counter = 0; 
+            while (!MyGame.MyEngine.Moves.Contains(calculated) && !MyGame.MyPlayer.Moves.Contains(calculated))
+            {
+                calculated = CalculateMove(MyGame.MyEngine, MyGame.MyPlayer);
+                counter++; 
+                if(counter > 6) 
+                {
+                    var rand = new Random(); 
+                    List<int> filteredList = Constants.correctMoves.Where(i => !MyGame.MyEngine.Moves.Contains(i) && !MyGame.MyEngine.Moves.Contains(i)).ToList();
+                    return filteredList[rand.Next(0, filteredList.Count())];
+                }
+            }
+            return calculated;
         }
 
     }
