@@ -259,7 +259,6 @@ namespace TicTacToe
             return WinnerStateChecker.CheckState(player);
         }
 
-       
 
         public bool ClearMoves(string command) 
         {
@@ -267,7 +266,7 @@ namespace TicTacToe
             {
                 UltimateGame.ForEach(i => i.ClearMoves(command));
 
-                UltimateGame.ForEach(i => i.ChangeWinnedState()); 
+                UltimateGame.ForEach(i => i.Winned = false);
 
                 MyGame.MyPlayer.ClearMoves();
 
