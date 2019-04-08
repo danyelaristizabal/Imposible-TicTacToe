@@ -76,6 +76,8 @@ namespace TicTacToe
                 try
                 {
                     move = Convert.ToInt32(Console.ReadLine());
+                    if (!MoveInputValidator(MyGame, move))
+                    goto TryAgain;
                 }
                 catch
                 {
@@ -113,6 +115,27 @@ namespace TicTacToe
                 return true;
             }
             return false;
+        }
+        static bool MoveInputValidator(Game Game, int move)
+        {
+
+            if (!Constants.correctMoves.Contains(move)) // Validating correct input
+            {
+                Console.WriteLine("Incorrect input, Only numbers from 1 to 9");
+
+                Console.WriteLine("Press enter to input again");
+
+                Console.ReadLine();
+                return false;
+            }
+            if (Game.MyEngine.Moves.Contains(move) // Validating choosen table taken state
+            || Game.MyPlayer.Moves.Contains(move))
+            {
+                Console.WriteLine("taken Move in this table, sending flow to choose table ");
+                Console.ReadKey();
+                return false;
+            }
+            return true;
         }
     }
 }
