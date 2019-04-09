@@ -28,7 +28,6 @@ namespace TicTacToe
         Start:
 
             Console.WriteLine("Welcome to Extreme Tic-tac-toe, Press enter to start playing");
-            Console.ReadKey();
 
             RunPartialGames();
 
@@ -65,8 +64,6 @@ namespace TicTacToe
 
                 Console.WriteLine("Press enter to input again");
 
-                Console.ReadLine();
-
                 goto TryAgain;
             }
 
@@ -84,9 +81,9 @@ namespace TicTacToe
                     // -------------- choosing next table logic 
                         move = EngineManager.ComputerChooseTable(MyGame);
 
-                    Console.WriteLine($"Choosed table: {move}"); 
-                           
-                        DisplayMovesOfPartialGame(move); 
+                    Console.WriteLine($"Choosed table: {move}");
+
+                    WinnerStateChecker.DisplayMovesOfPartialGame(move, UltimateGame); 
 
                         ComputerMove = CalculateMove(MyGame, UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
 
@@ -101,7 +98,7 @@ namespace TicTacToe
 
                             Console.WriteLine($"Computer Won table {NextTable}");
 
-                            DisplayMovesOfPartialGame(NextTable); 
+                        WinnerStateChecker.DisplayMovesOfPartialGame(NextTable,UltimateGame); 
 
                             MyGame.MyEngine.Moves.Add(NextTable);
 
@@ -127,7 +124,7 @@ namespace TicTacToe
                        // -------------- choosing next table logic 
                         Console.WriteLine($"Player won table: {move}");
 
-                        DisplayMovesOfPartialGame(move); 
+                    WinnerStateChecker.DisplayMovesOfPartialGame(move, UltimateGame); 
 
                         MyGame.MyPlayer.Moves.Add(move);
 
@@ -144,7 +141,7 @@ namespace TicTacToe
 
                         Console.WriteLine($"Choosed table :{move}");
 
-                        DisplayMovesOfPartialGame(move); 
+                    WinnerStateChecker.DisplayMovesOfPartialGame(move, UltimateGame); 
 
                         ComputerMove = CalculateMove(MyGame, UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
 
@@ -156,7 +153,7 @@ namespace TicTacToe
                         {
                             Console.WriteLine($"Computer Won table {move}");
 
-                            DisplayMovesOfPartialGame(move); 
+                        WinnerStateChecker.DisplayMovesOfPartialGame(move, UltimateGame); 
 
                             MyGame.MyEngine.Moves.Add(move);
 
@@ -178,7 +175,7 @@ namespace TicTacToe
 
                     ComputerMove = CalculateMove(MyGame, UltimateGame[NextTable - 1].GetEngine(), UltimateGame[NextTable - 1].GetPlayer());
 
-                    DisplayMovesOfPartialGame(NextTable); 
+                WinnerStateChecker.DisplayMovesOfPartialGame(NextTable, UltimateGame); 
 
                     Console.WriteLine($"Calculated Move: {ComputerMove} ");
 
@@ -188,7 +185,7 @@ namespace TicTacToe
                     {
                         Console.WriteLine($"Computer Won table: {NextTable}");
 
-                        DisplayMovesOfPartialGame(NextTable);
+                    WinnerStateChecker.DisplayMovesOfPartialGame(NextTable, UltimateGame);
 
                         MyGame.MyEngine.Moves.Add(NextTable);
 
@@ -225,40 +222,23 @@ namespace TicTacToe
 
                 Console.WriteLine("Press enter to input again");
 
-                Console.ReadLine();
                 return false;
             }
             if (Game.MyEngine.Moves.Contains(move) // Validating choosen table taken state
             || Game.MyPlayer.Moves.Contains(move))
             {
                 Console.WriteLine("taken table, sending flow to choose table ");
-                Console.ReadKey();
                 return false;
             }
             return true;
         }
 
-        static void DisplayMovesOfPartialGame(int _partialId) 
-        {
-            Console.WriteLine($"EngineMoves on current table: {_partialId}");
 
-            UltimateGame[_partialId - 1].GetEngineMoves().ForEach(Console.Write);
-
-            Console.WriteLine();
-
-            Console.WriteLine($"PlayerMoves on current table: {_partialId}");
-
-            UltimateGame[_partialId - 1].GetPlayerMoves().ForEach(Console.Write);
-
-            Console.WriteLine();
-
-        }
 
         static bool Game9x9Checker(IPlayer player) 
         {
             return WinnerStateChecker.CheckState(player);
         }
-
 
         public bool ClearMoves(string command) 
         {

@@ -8,8 +8,7 @@ namespace BackEndTests
        [Fact]
        public void TestWining() 
        {
-            int a;
-            a = 1; 
+           
        }
 
     }

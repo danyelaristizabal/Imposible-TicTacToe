@@ -12,9 +12,7 @@ namespace TicTacToe
 
         public Player()
         {
-
             Moves = new List<int>();
-
         }
 
         public void ClearMoves()

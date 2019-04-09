@@ -8,9 +8,24 @@ namespace TicTacToe
     {
         private static List<int> UnOrderedMovesList = new List<int>();
 
+        public static void DisplayMovesOfPartialGame(int _partialId, List<PartialGameManager> UltimateGame)
+        {
+            Console.Write($"EngineMoves on current table({_partialId}): ");
+
+            UltimateGame[_partialId - 1].GetEngineMoves().ForEach(Console.Write);
+
+            Console.WriteLine();
+
+            Console.Write($"PlayerMoves on current table({_partialId}): ");
+
+            UltimateGame[_partialId - 1].GetPlayerMoves().ForEach(Console.Write);
+
+            Console.WriteLine();
+
+        }
+
         public static bool CheckState(IPlayer MyPlayer) // TODO : player moves with 555 or 333 says it wins 
         {
-
             var PassedListOfMoves = MyPlayer.Moves;
             var AllPosibilitiesList = new List<MoveCombination>();
 
@@ -42,7 +57,7 @@ namespace TicTacToe
             UnOrderedMovesList.Clear();
             return false;
         }
-
+      
         internal static int CalcFactorial(int number)
         {
             if (number == 1)

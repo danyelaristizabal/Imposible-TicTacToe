@@ -7,7 +7,6 @@ namespace TicTacToe
     {
          List<int> Moves { get; set; }
          void ClearMoves();
-        
     }
 
 }

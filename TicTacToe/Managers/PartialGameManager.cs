@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TicTacToe
 {
-    internal class PartialGameManager
+    public class PartialGameManager
     {
         public bool Winned { get; set; }
         public Game MyGame { get; set; }
@@ -59,16 +59,17 @@ namespace TicTacToe
         public int RunGame()
         {
             Console.WriteLine($"Welcome to the partial table number {PartialId + 1}");
-            Console.ReadKey();
 
-            Console.WriteLine($"EngineMoves on current table: {PartialId + 1}"); // Printing all moves in this table for orientation porposes 
+            Console.Write($"EngineMoves on current table ({PartialId + 1}):");
+
             GetEngineMoves().ForEach(Console.Write);
 
             Console.WriteLine();
 
-            Console.WriteLine($"PlayerMoves on current table: {PartialId + 1}");
-            GetPlayerMoves().ForEach(Console.Write);
+            Console.Write($"PlayerMoves on current table ({PartialId + 1}):");
 
+            GetPlayerMoves().ForEach(Console.Write);
+            Console.WriteLine();
 
             int move = 0;
             TryAgain:
@@ -83,7 +84,6 @@ namespace TicTacToe
                 {
                     Console.WriteLine("Incorrect input, Only numbers from 1 to 9");
                     Console.WriteLine("Press enter to input again");
-                    Console.ReadLine();
                     goto TryAgain;
                 }
 
@@ -96,7 +96,6 @@ namespace TicTacToe
                 {
                     Console.WriteLine("Incorrect input, Only numbers from 1 to 9");
                     Console.WriteLine("Press enter to input again");
-                    Console.ReadLine();
                     goto TryAgain;
                 }
                    
@@ -125,14 +124,12 @@ namespace TicTacToe
 
                 Console.WriteLine("Press enter to input again");
 
-                Console.ReadLine();
                 return false;
             }
             if (Game.MyEngine.Moves.Contains(move) // Validating choosen table taken state
             || Game.MyPlayer.Moves.Contains(move))
             {
                 Console.WriteLine("taken Move in this table, sending flow to choose table ");
-                Console.ReadKey();
                 return false;
             }
             return true;

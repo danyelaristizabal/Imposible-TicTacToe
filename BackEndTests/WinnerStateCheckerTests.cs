@@ -10,8 +10,8 @@ namespace BackEndTests
         public void CheckState()
         {
             var player = new Player();
-            player.Moves.Add(1);
-            player.Moves.Add(5);
+            player.Moves.Add(4);
+            player.Moves.Add(4);
             player.Moves.Add(4);
             var result =  WinnerStateChecker.CheckState(player);
             Assert.True(result == false);
