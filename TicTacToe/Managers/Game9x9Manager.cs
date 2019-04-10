@@ -25,7 +25,8 @@ namespace TicTacToe
 
         public void RunGame()
         {
-        Start:
+            bool play = true; 
+            while(play) {
 
             Console.WriteLine("Welcome to Extreme Tic-tac-toe, Press enter to start playing");
 
@@ -33,45 +34,45 @@ namespace TicTacToe
 
             Console.WriteLine("To restart the game type R, to close the app press any key ");
 
-            if (ClearMoves(Console.ReadLine()))
-            {
-                goto Start;
+                play = ClearMoves(Console.ReadLine()); 
             }
         }
 
         public void RunPartialGames() 
         {
             int move = 0;
-
+            bool validation = true; 
             TryAgain:
 
             Console.WriteLine("Choose game table");
-
-            try
+            while (validation) 
             {
-                move = Convert.ToInt32(Console.ReadLine());
-
-                if (!TableInputValidator(MyGame, move)) 
+                try
                 {
+                    move = Convert.ToInt32(Console.ReadLine());
+                    validation = !TableInputValidator(MyGame, move); 
+                    
+                }
+                catch // validating correct input 
+                {
+                    Console.WriteLine("Incorrect input, Only numbers from 1 to 9");
 
-                    goto TryAgain; 
+                    Console.WriteLine("Press enter your input again");
 
+                    validation = true; 
                 }
             }
-            catch // validating correct input 
-            {
-                Console.WriteLine("Incorrect input, Only numbers from 1 to 9"); 
 
-                Console.WriteLine("Press enter to input again");
-
-                goto TryAgain;
-            }
-
+            
             while (!WinnerStateChecker.CheckState(MyGame.MyPlayer) && !WinnerStateChecker.CheckState(MyGame.MyEngine))
             {
-                    Table:
-                    int ComputerMove;
-                    
+                int ComputerMove;
+                bool tableValidation = true; 
+
+
+
+                while (tableValidation) { 
+
                     NextTable = UltimateGame[move - 1].RunGame();
                     
                     if (UltimateGame[NextTable - 1].Winned) // Checking if somebody won the table before and handle choosing 
@@ -115,11 +116,15 @@ namespace TicTacToe
                         }
 
                         move = ComputerMove;
-                        goto Table;
+                        tableValidation = true; 
+                    }else
+                    {
+
+                        tableValidation = false; 
+
                     }
 
-
-                    if (WinnerStateChecker.CheckState(UltimateGame[move - 1].GetPlayer())) // Checking if player won, if so handling choosing next table logic 
+                    if (WinnerStateChecker.CheckState(UltimateGame[move - 1].GetPlayer()) && tableValidation != true) // Checking if player won, if so handling choosing next table logic 
                     {
                        // -------------- choosing next table logic 
                         Console.WriteLine($"Player won table: {move}");
@@ -141,7 +146,7 @@ namespace TicTacToe
 
                         Console.WriteLine($"Choosed table :{move}");
 
-                    WinnerStateChecker.DisplayMovesOfPartialGame(move, UltimateGame); 
+                        WinnerStateChecker.DisplayMovesOfPartialGame(move, UltimateGame); 
 
                         ComputerMove = CalculateMove(MyGame, UltimateGame[move - 1].GetEngine(), UltimateGame[move - 1].GetPlayer());
 
@@ -169,11 +174,18 @@ namespace TicTacToe
                             goto TryAgain;
                         }
                         move = ComputerMove;
-
-                        goto Table;
+                        tableValidation = true;
                     }
+                    else 
+                    {
+                        tableValidation = false;
+                    } 
 
-                    ComputerMove = CalculateMove(MyGame, UltimateGame[NextTable - 1].GetEngine(), UltimateGame[NextTable - 1].GetPlayer());
+                }
+
+
+
+                ComputerMove = CalculateMove(MyGame, UltimateGame[NextTable - 1].GetEngine(), UltimateGame[NextTable - 1].GetPlayer());
 
                 WinnerStateChecker.DisplayMovesOfPartialGame(NextTable, UltimateGame); 
 
@@ -220,7 +232,7 @@ namespace TicTacToe
             {
                 Console.WriteLine("Incorrect input, Only numbers from 1 to 9");
 
-                Console.WriteLine("Press enter to input again");
+                Console.WriteLine("Press enter your input again");
 
                 return false;
             }
@@ -232,8 +244,6 @@ namespace TicTacToe
             }
             return true;
         }
-
-
 
         static bool Game9x9Checker(IPlayer player) 
         {
