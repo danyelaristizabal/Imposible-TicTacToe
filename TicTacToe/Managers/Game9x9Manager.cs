@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using TicTacToe.Managers; 
 namespace TicTacToe
 {
-    internal class Game9x9Manager
+    internal class Game9x9Manager : IGameManager
     {
         public Game MyGame { get; set; }
         public int NextTable { get; set; }
@@ -68,8 +69,6 @@ namespace TicTacToe
             {
                 int ComputerMove;
                 bool tableValidation = true; 
-
-
 
                 while (tableValidation) { 
 

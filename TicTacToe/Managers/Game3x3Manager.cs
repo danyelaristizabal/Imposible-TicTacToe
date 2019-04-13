@@ -1,9 +1,12 @@
 ﻿using System;
+using TicTacToe.Managers; 
 namespace TicTacToe
 {
-    public class Game3x3Manager 
+    public class Game3x3Manager : IGameManager
     {
-        private static Game MyGame { get; set; }
+        public Game MyGame { get; set; }
+        public bool Over { get; set; }
+        public bool Draw { get; set; }
         public Game3x3Manager(Game _myGame)
         {
             MyGame = _myGame; 
@@ -65,14 +68,14 @@ namespace TicTacToe
                     Console.WriteLine(answer);
                 }
             }
-            Console.WriteLine("To restart the game type R, to close the app press any key ");
+            Console.WriteLine("To restart the game type R, to choose a game press anykey");
             if (ClearMoves(Console.ReadLine()))
             {
                 goto Start;
             }
         }
 
-        private static string Play()
+        private  string Play()
         {
             switch (MyGame.MyPlayer.Moves.Count)
             {
